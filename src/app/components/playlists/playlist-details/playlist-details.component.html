@@ -1,0 +1,21 @@
+<div *ngIf="playlist">
+  
+    <h2>{{ playlist.name | uppercase }} Details</h2>
+    <div><span>id: </span>{{playlist.id}}</div>
+    <div>
+      <label>name:
+        {{playlist.name}}
+      </label>
+    </div>
+    <div *ngIf="tracks">
+      <li *ngFor="let track of tracks" >
+        {{track.track.name}} 
+        <ul *ngFor="let artist of  track.track.artists" >
+            <a [routerLink]="['artists', artist.id]">Usuario</a>
+        </ul>
+        <a [routerLink]="['albums', track.track.album.id]">Usuario</a>
+        <button (click)="playTrack(track.track.preview_url)">Play</button>
+      </li>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
