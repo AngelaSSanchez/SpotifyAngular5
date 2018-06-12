@@ -1,6 +1,22 @@
-<p>
-  artists works!
-</p>
+<app-header></app-header>
+
+<h1></h1>
+<div *ngIf="tracks">
+  <li *ngFor="let track of tracks" >
+    {{track.name}} 
+    <button (click)="playTrack(track.preview_url)">Play</button>
+    <button mat-button [matMenuTriggerFor]="menu">V</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteTrack(track.uri)">Delete playlist</button>
+    </mat-menu>   
+  </li>
+</div>
+
+<div *ngIf="albums">
+  <li *ngFor="let album of albums" >
+    {{album.name}} 
+  </li>
+</div>
+
 <button (click)="followArtist()">Follow</button>
-<a [routerLink]='[playlists]'>Playlists</a>
-<router-outlet></router-outlet>
+<a [routerLink]="['/playlists']">Playlists</a>

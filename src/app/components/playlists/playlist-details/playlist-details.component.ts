@@ -2,13 +2,13 @@ import { Component, OnInit, Input, OnChanges, OnDestroy } from '@angular/core';
 import { SpotifyPlaylistService } from '../spotify-playlist.service';
 import { Playlist } from '../playlist';
 import { Track, PlayTrack } from '../../track';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist-details.component.html',
   styleUrls: ['./playlist-details.component.css'],
-  providers: [SpotifyPlaylistService]
+  providers: []
 })
 export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -55,6 +55,10 @@ export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.audioElement.pause();
     }
+  }
+
+  deleteTrack(uri: string) {
+
   }
 
 }

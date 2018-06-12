@@ -1,6 +1,7 @@
-<h3>{{profile?.id}}</h3>
-
+<app-header></app-header>
 <h2>PLAYLISTS</h2>
+<button mat-raised-button (click)="openDialog()">Nueva Playlist</button>
+
 <ul>
   <li *ngFor="let playlist of playlists"   
     [class.selected]="playlist === selectedPlaylist"
@@ -10,3 +11,4 @@
 </ul>
 
 <app-playlist [playlist]="selectedPlaylist"></app-playlist>
+<router-outlet></router-outlet>

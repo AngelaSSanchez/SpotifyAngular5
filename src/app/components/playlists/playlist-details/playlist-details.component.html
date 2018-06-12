@@ -1,7 +1,6 @@
 <div *ngIf="playlist">
   
     <h2>{{ playlist.name | uppercase }} Details</h2>
-    <div><span>id: </span>{{playlist.id}}</div>
     <div>
       <label>name:
         {{playlist.name}}
@@ -10,12 +9,16 @@
     <div *ngIf="tracks">
       <li *ngFor="let track of tracks" >
         {{track.track.name}} 
-        <ul *ngFor="let artist of  track.track.artists" >
-            <a [routerLink]="['artists', artist.id]">Usuario</a>
-        </ul>
-        <a [routerLink]="['albums', track.track.album.id]">Usuario</a>
+        <span *ngFor="let artist of  track.track.artists" >
+            <a [routerLink]="['/artists', artist.id]">Artist</a>
+        </span>
+        <a [routerLink]="['/albums', track.track.album.id]">Album</a>
         <button (click)="playTrack(track.track.preview_url)">Play</button>
+        <button mat-button [matMenuTriggerFor]="menu">V</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="deleteTrack(track.track.uri)">Delete playlist</button>
+        </mat-menu>   
       </li>
     </div>
   </div>
-  <router-outlet></router-outlet>
+  

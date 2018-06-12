@@ -6,7 +6,8 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { SpotifyLoginService } from './spotify-login.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: SpotifyLoginService) {}

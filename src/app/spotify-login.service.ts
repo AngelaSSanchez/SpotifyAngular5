@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SpotifyLoginService {
@@ -13,7 +14,7 @@ export class SpotifyLoginService {
   constructor(public http: HttpClient) { }
 
   public getUrl(): string {
-    return 'https://accounts.spotify.com/authorize?client_id=yourclientid&scope='
+    return 'https://accounts.spotify.com/authorize?client_id=&scope='
      + encodeURIComponent(this.scopes) + '&redirect_uri=http://localhost:4200/callback&response_type=token';
   }
 
@@ -22,7 +23,7 @@ export class SpotifyLoginService {
   }
 
   public getProfile() {
-    return this.http.get(this.baseUrl).map(resp => resp);
+    return this.http.get(this.baseUrl).pipe(map(resp => resp));
   }
 
   public getBaseUrl(): string {
@@ -30,6 +31,6 @@ export class SpotifyLoginService {
   }
 
   public getPlaylists(): Observable<any> {
-    return this.http.get(this.baseUrl.concat('/playlists')).map(resp => resp);
+    return this.http.get(this.baseUrl.concat('/playlists')).pipe(map(resp => resp));
   }
 }

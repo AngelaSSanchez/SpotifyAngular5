@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Tracks } from '../track';
+import { Albums } from '../albums';
 
 @Injectable()
 export class SpotifyArtistsService {
@@ -12,13 +14,13 @@ export class SpotifyArtistsService {
   constructor(public http: HttpClient) { }
 
   public getArtistTopTracks(id: string): Observable<Tracks> {
-    return this.http.get(this.baseUrl.concat(id).concat('/top-tracks?country=ES')).map(resp => <Tracks>resp);
+    return this.http.get(this.baseUrl.concat(id).concat('/top-tracks?country=ES')).pipe(map(resp => <Tracks>resp));
   }
-  public getArtistAlbums(id: string): Observable<any> {
-    return this.http.get(this.baseUrl.concat(id).concat('/albums')).map(resp => resp);
+  public getArtistAlbums(id: string): Observable<Albums> {
+    return this.http.get(this.baseUrl.concat(id).concat('/albums')).pipe(map(resp => <Albums>resp));
   }
 
   public followArtists(id: string) {
-    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids='+id, null).subscribe(resp => resp);
+    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=' + id, null).subscribe(resp => resp);
   }
 }

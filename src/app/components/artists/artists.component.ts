@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { SpotifyArtistsService } from './spotify-artists.service';
-import { Track, PlayTrack } from '../track';
-import { Albums } from '../albums';
+import { Track, PlayTrack, Tracks } from '../track';
+import { Album, Albums } from '../albums';
 
 @Component({
   selector: 'app-artists',
@@ -15,14 +15,18 @@ export class ArtistsComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
   id: string = '';
-  tracks: Track[];
-  albums: Albums[];
+  tracks: Tracks;
+  albums: Album[];
+
+  public show:boolean = false;
+  audioElement: any;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private artistService: SpotifyArtistsService) { }
 
   ngOnInit() {
+    this.audioElement = new Audio();
     this.subscription = this.activatedRoute.params.subscribe(
       (params) => {
         this.id = params['id'];
@@ -39,8 +43,8 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   getArtistTopTracks(id: string) {
     this.subscription = this.artistService.getArtistTopTracks(id).subscribe(
         tracks => {
-          this.tracks = tracks.items;
-          console.log(this.tracks);
+          this.tracks = tracks['tracks'];
+          console.log('TopTracks' + this.tracks);
       }
     );
   }
@@ -48,14 +52,25 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   getArtistsAlbums(id: string) {
     this.subscription = this.artistService.getArtistAlbums(id).subscribe(
         albums => {
-          this.tracks = albums.items;
-          console.log(this.albums);
+          this.albums = albums.items;
+          console.log('Albums' + this.albums);
       }
     );
   }
 
   followArtist() {
     this.subscription = this.artistService.followArtists(this.id);
+  }
+
+  playTrack(src: string) {
+    this.show = !this.show;
+
+    this.audioElement.src = src;
+    if (this.show) {
+      this.audioElement.play();
+    } else {
+      this.audioElement.pause();
+    }
   }
 
 }
