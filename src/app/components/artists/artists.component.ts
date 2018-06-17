@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { SpotifyArtistsService } from './spotify-artists.service';
 import { Track, Tracks } from '../../models/track';
 import { Album, Albums } from '../../models/albums';
+import { SpotifyArtistsService } from '../../sevices/spotify-artist/spotify-artists.service';
 
 @Component({
   selector: 'app-artists',
@@ -68,6 +68,8 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   }
 
   playTrack(src: string) {
+    this.artistService.playTrack(src);
+    /**
     this.show = !this.show;
 
     this.audioElement.src = src;
@@ -76,6 +78,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     } else {
       this.audioElement.pause();
     }
+    */
   }
 
 }

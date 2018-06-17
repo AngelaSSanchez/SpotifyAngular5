@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SpotifyAlbumsService } from './spotify-albums.service';
 import { Album } from '../../models/albums';
 import { Subscription } from 'rxjs';
+import { SpotifyAlbumsService } from '../../sevices/spotify-album/spotify-albums.service';
 
 @Component({
   selector: 'app-albums',

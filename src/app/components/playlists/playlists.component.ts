@@ -1,11 +1,10 @@
 import { Component, OnInit, OnChanges, OnDestroy, Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SubscriptionLike as ISubscription } from 'rxjs';
-import { SpotifyLoginService } from '../../spotify-login.service';
-import { SpotifyPlaylistService } from './spotify-playlist.service';
-import { Playlist, Playlists } from '../../models/playlist';
+import { Playlist, Playlists, TrackLink } from '../../models/playlist';
 import { CreatePlaylistComponent } from './create-playlist/create-playlist.component';
 import { Profile } from '../../models/profile';
+import { SpotifyPlaylistService } from '../../sevices/spotify-playlist/spotify-playlist.service';
 
 @Component({
   selector: 'app-playlists',
@@ -20,13 +19,14 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   profile: Profile;
   playlists: Playlists;
   selectedPlaylist: Playlist;
+  auxPlaylist: Playlist;
   playlistName: string;
   index: number;
+  playlistTracks: TrackLink;
 
   private subscription: ISubscription;
 
-  constructor(private spotifyService: SpotifyLoginService,
-              private playlistService: SpotifyPlaylistService,
+  constructor(private playlistService: SpotifyPlaylistService,
               public dialog: MatDialog
             ) { }
 
@@ -47,9 +47,8 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSelect(playlist: Playlist, index: number) {
+  onSelect(playlist: Playlist) {
     this.selectedPlaylist = playlist;
-    this.index = index;
   }
 
   openDialog(): void {
@@ -72,14 +71,12 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   deleteTrack(track) {
-    this.playlistService.deleteTrackFromPlaylist(this.selectedPlaylist.id, this.profile.id, track.uri, this.index);
-    console.log('Track deleted' + track.uri);
-    console.log('selectedPlay' + this.selectedPlaylist.id);
-    console.log('Profile' + this.profile.id);
+    console.log('Track deleted');
+    alert('Cancion eliminada de la lista');
   }
 
   getProfile() {
-    this.subscription = this.spotifyService.getProfile().subscribe(
+    this.subscription = this.playlistService.getProfile().subscribe(
       profile => {
         this.profile = profile;
      }

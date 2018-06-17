@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Profile } from './models/profile';
+import { Profile } from '../../models/profile';
 
-@Injectable()
-export class SpotifyLoginService {
-
-  private scopes = 'user-read-private user-read-email user-follow-modify';
+@Injectable({
+  providedIn: 'root'
+})
+export class SpotifyProfileService {
 
   private baseUrl = 'https://api.spotify.com/v1/me';
 
@@ -16,15 +16,6 @@ export class SpotifyLoginService {
   audioElement = new Audio();
 
   constructor(public http: HttpClient) { }
-
-  public getUrl(): string {
-    return 'https://accounts.spotify.com/authorize?client_id=&scope='
-     + encodeURIComponent(this.scopes) + '&redirect_uri=http://localhost:4200/callback&response_type=token';
-  }
-
-  public getToken(): string {
-    return localStorage.getItem('token');
-  }
 
   public getProfile(): Observable<Profile> {
     return this.http.get(this.baseUrl).pipe(map(resp => <Profile>resp));

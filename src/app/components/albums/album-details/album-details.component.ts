@@ -2,8 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Album } from '../../../models/albums';
 import { Subscription } from 'rxjs';
 import { Tracks, Track } from '../../../models/track';
-import { SpotifyAlbumsService } from '../spotify-albums.service';
-import { SpotifyLoginService } from '../../../spotify-login.service';
+import { SpotifyAlbumsService } from '../../../sevices/spotify-album/spotify-albums.service';
 
 @Component({
   selector: 'app-album-details',
@@ -21,8 +20,7 @@ export class AlbumDetailsComponent implements OnInit {
 
   displayedColumns = ['name', 'preview_url', 'duration_ms'];
 
-  constructor(private spotifyAlbum: SpotifyAlbumsService,
-              private spotifyService: SpotifyLoginService) { }
+  constructor(private albumService: SpotifyAlbumsService) { }
 
   ngOnInit() {
     if (this.album !== null) {
@@ -31,7 +29,7 @@ export class AlbumDetailsComponent implements OnInit {
   }
 
   getAlbumTracks(id: string) {
-    this.subscription = this.spotifyAlbum.getAlbumTracks(id).subscribe(
+    this.subscription = this.albumService.getAlbumTracks(id).subscribe(
         tracks => {
           this.tracks = tracks;
           this.tracklist = tracks.items;
@@ -40,7 +38,7 @@ export class AlbumDetailsComponent implements OnInit {
   }
 
   playTrack(url: string) {
-    this.spotifyService.playTrack(url);
+    this.albumService.playTrack(url);
   }
 
 }

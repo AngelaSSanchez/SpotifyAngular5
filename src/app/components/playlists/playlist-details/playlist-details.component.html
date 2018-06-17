@@ -7,7 +7,7 @@
       </label>
     </div>
     <div *ngIf="tracks">
-      <li *ngFor="let track of tracks" >
+      <li *ngFor="let track of tracks.items" >
         {{track.track.name}} 
         <span *ngFor="let artist of  track.track.artists" >
             <a [routerLink]="['/artists', artist.id]">Artist</a>

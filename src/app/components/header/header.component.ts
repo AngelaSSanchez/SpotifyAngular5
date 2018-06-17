@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { SubscriptionLike as ISubscription } from 'rxjs';
-import { SpotifyLoginService } from '../spotify-login.service';
-import { Profile } from '../models/profile';
+import { Profile } from '../../models/profile';
+import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-profile.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Output() userProfile = new EventEmitter();
   profile: Profile;
 
-  constructor(private spotifyService: SpotifyLoginService) { }
+  constructor(private spotifyService: SpotifyProfileService) { }
 
   ngOnInit() {
     this.getProfileData();

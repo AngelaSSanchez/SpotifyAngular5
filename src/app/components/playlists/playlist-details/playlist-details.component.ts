@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, Output, OnChanges, OnDestroy, EventEmitter } from '@angular/core';
-import { SpotifyPlaylistService } from '../spotify-playlist.service';
-import { Playlist } from '../../../models/playlist';
-import { Track } from '../../../models/track';
+import { SpotifyPlaylistService } from '../../../sevices/spotify-playlist/spotify-playlist.service';
+import { Playlist, TrackLink } from '../../../models/playlist';
+import { Track, Tracks } from '../../../models/track';
 import { Subscription } from 'rxjs';
+import { Profile } from '../../../models/profile';
 
 @Component({
   selector: 'app-playlist',
@@ -13,10 +14,12 @@ import { Subscription } from 'rxjs';
 export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() playlist: Playlist;
+  @Input() playlistTracks: TrackLink;
   @Output() delTrack = new EventEmitter();
   track: Track;
+  profile: Profile;
 
-  tracks: Track[];
+  tracks: Tracks;
 
   public show: boolean;
   audioElement: any;
@@ -28,6 +31,7 @@ export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.audioElement = new Audio();
+    this.getProfile();
   }
 
   ngOnDestroy() {
@@ -35,34 +39,42 @@ export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    if (this.playlist) {
+    if (this.playlist || this.tracks) {
       this.getTracks();
     }
   }
 
-  getTracks() {
+  getTracks(): Tracks {
     this.subscription = this.playlistService.getPlaylistTracks(this.playlist.tracks.href).subscribe(
       tracks => {
-        this.tracks = tracks.items;
+        this.tracks = tracks;
         console.log(this.tracks);
      }
     );
+
+    return this.tracks;
   }
 
   playTrack(src: string) {
-    this.show = !this.show;
-
-    this.audioElement.src = src;
-    if (this.show) {
-      this.audioElement.play();
-    } else {
-      this.audioElement.pause();
-    }
+    this.playlistService.playTrack(src);
   }
 
   deleteTrack(track: Track) {
-   // this.track = track;
+    this.playlistService.deleteTrackFromPlaylist(this.playlist.id, this.profile.id, track.uri)
+    .subscribe(
+      tracks => {
+        this.tracks = this.getTracks();
+      }
+    );
     this.delTrack.emit(track);
+  }
+
+  getProfile() {
+    this.subscription = this.playlistService.getProfile().subscribe(
+      profile => {
+        this.profile = profile;
+     }
+    );
   }
 
 }

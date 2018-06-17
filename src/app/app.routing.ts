@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { CallbackComponent } from './callback/callback.component';
+import { CallbackComponent } from './sign-in/callback/callback.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { ArtistsComponent } from './components/artists/artists.component';
@@ -16,4 +16,4 @@ const ROUTES: Routes = [
     { path: '**', component: SignInComponent }
 ];
 
-export const routing = RouterModule.forRoot(ROUTES, { useHash: true});
+export const routingModule = RouterModule.forRoot(ROUTES, { useHash: true});

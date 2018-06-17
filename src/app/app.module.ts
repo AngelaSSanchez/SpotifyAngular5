@@ -1,15 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { routing } from './app.routing';
+import { routingModule } from './app.routing';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { SpotifyLoginService } from './spotify-login.service';
+import { SpotifyLoginService } from './sevices/spotify-login/spotify-login.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { CallbackComponent } from './callback/callback.component';
+import { CallbackComponent } from './sign-in/callback/callback.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
@@ -20,8 +20,12 @@ import { AlbumsComponent } from './components/albums/albums.component';
 import { ArtistsComponent } from './components/artists/artists.component';
 import { CreatePlaylistComponent } from './components/playlists/create-playlist/create-playlist.component';
 import { MaterialModule } from './material-module/material-module.module';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './components/header/header.component';
 import { AlbumDetailsComponent } from './components/albums/album-details/album-details.component';
+import { SpotifyProfileService } from './sevices/spotify-profile/spotify-profile.service';
+import { UserComponent } from './components/header/user/user.component';
+import { FollowingComponent } from './components/header/user/following/following.component';
+import { UserRoutingModule } from './components/header/user-routing/user-routing.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,9 @@ import { AlbumDetailsComponent } from './components/albums/album-details/album-d
     ArtistsComponent,
     CreatePlaylistComponent,
     HeaderComponent,
-    AlbumDetailsComponent
+    AlbumDetailsComponent,
+    UserComponent,
+    FollowingComponent
   ],
   imports: [
     BrowserModule,
@@ -44,10 +50,12 @@ import { AlbumDetailsComponent } from './components/albums/album-details/album-d
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    routing
+    UserRoutingModule,
+    routingModule
   ],
   providers: [
     SpotifyLoginService,
+    SpotifyProfileService,
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy

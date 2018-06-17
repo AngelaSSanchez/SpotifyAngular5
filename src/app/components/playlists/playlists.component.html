@@ -4,7 +4,7 @@
 <button mat-raised-button (click)="openDialog()">Nueva Playlist</button>
 
 <ul *ngIf="playlists">
-  <li *ngFor="let playlist of playlists.items; let i of index"  
+  <li *ngFor="let playlist of playlists.items"  
     [class.selected]="playlist === selectedPlaylist"
     (click)="onSelect(playlist, i)">
         {{playlist.name}}
