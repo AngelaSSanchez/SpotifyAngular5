@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Album } from '../../albums';
+import { Album } from '../../../models/albums';
 import { Subscription } from 'rxjs';
-import { Tracks, Track } from '../../track';
+import { Tracks, Track } from '../../../models/track';
 import { SpotifyAlbumsService } from '../spotify-albums.service';
 import { SpotifyLoginService } from '../../../spotify-login.service';
 

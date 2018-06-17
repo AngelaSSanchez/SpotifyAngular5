@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { SpotifyLoginService } from '../../spotify-login.service';
-import { PlayTrack } from '../track';
-import { Playlist, Playlists } from './playlist';
+import { Playlist, Playlists } from '../../models/playlist';
 @Injectable()
 export class SpotifyPlaylistService {
 
@@ -28,9 +27,9 @@ export class SpotifyPlaylistService {
   }
 
   public deleteTrackFromPlaylist(playlistId: string, profileId: string, trackUri: string, index: number) {
-    let uri = decodeURIComponent('[{"uri": "' + trackUri + '", "positions": [' + index.toString() + ']}]');
+    const uri = decodeURIComponent('[{"uri": "' + trackUri + '", "positions": [' + index.toString() + ']}]');
     console.log('Uri' + uri);
-    let params = new HttpParams().append('tracks', uri);
+    const params = new HttpParams().append('tracks', uri);
     console.log('param' + params);
     return this.http.delete('https://api.spotify.com/v1/users/' + profileId + '/playlists/' + playlistId + '/tracks',
      {params})

@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Tracks } from '../track';
-import { Albums } from '../albums';
+import { Tracks } from '../../models/track';
+import { Albums } from '../../models/albums';
 
 @Injectable()
 export class SpotifyArtistsService {

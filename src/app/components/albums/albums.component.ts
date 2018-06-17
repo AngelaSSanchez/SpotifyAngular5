@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SpotifyAlbumsService } from './spotify-albums.service';
-import { Album } from '../albums';
+import { Album } from '../../models/albums';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,11 +15,13 @@ export class AlbumsComponent implements OnInit {
   album: Album;
 
   subscription: Subscription;
-  id: string = '';
+  id: string;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private spotifyAlbums: SpotifyAlbumsService) { }
+              private spotifyAlbums: SpotifyAlbumsService) {
+                this.id = '';
+               }
 
   ngOnInit() {
     this.subscription = this.activatedRoute.params.subscribe(

@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SpotifyLoginService } from '../spotify-login.service';
-import { Profile } from '../components/track';
+import { Profile } from '../models/profile';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   private subscription: ISubscription;
   @Output() userProfile = new EventEmitter();

@@ -3,9 +3,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SpotifyLoginService } from '../../spotify-login.service';
 import { SpotifyPlaylistService } from './spotify-playlist.service';
-import { Playlist, Playlists } from './playlist';
+import { Playlist, Playlists } from '../../models/playlist';
 import { CreatePlaylistComponent } from './create-playlist/create-playlist.component';
-import { Profile } from '../track';
+import { Profile } from '../../models/profile';
 
 @Component({
   selector: 'app-playlists',
@@ -53,7 +53,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    let dialogRef = this.dialog.open(CreatePlaylistComponent, {
+    const dialogRef = this.dialog.open(CreatePlaylistComponent, {
       width: '250px',
       data: { playlistName: this.playlistName }
     });

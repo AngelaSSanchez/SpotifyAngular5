@@ -3,8 +3,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SpotifyArtistsService } from './spotify-artists.service';
-import { Track, PlayTrack, Tracks } from '../track';
-import { Album, Albums } from '../albums';
+import { Track, Tracks } from '../../models/track';
+import { Album, Albums } from '../../models/albums';
 
 @Component({
   selector: 'app-artists',
@@ -15,17 +15,20 @@ import { Album, Albums } from '../albums';
 export class ArtistsComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
-  id: string = '';
+  id: string;
   tracks: Tracks;
   albums: Album[];
   album: Album;
 
-  public show:boolean = false;
+  public show: boolean;
   audioElement: any;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private artistService: SpotifyArtistsService) { }
+              private artistService: SpotifyArtistsService) {
+                this.id = '';
+                this.show = false;
+               }
 
   ngOnInit() {
     this.audioElement = new Audio();

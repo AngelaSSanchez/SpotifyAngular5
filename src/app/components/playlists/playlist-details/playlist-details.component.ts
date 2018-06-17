@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, OnChanges, OnDestroy, EventEmitter } from '@angular/core';
 import { SpotifyPlaylistService } from '../spotify-playlist.service';
-import { Playlist } from '../playlist';
-import { Track, PlayTrack } from '../../track';
+import { Playlist } from '../../../models/playlist';
+import { Track } from '../../../models/track';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,12 +18,13 @@ export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
   tracks: Track[];
 
-  public show:boolean = false;
+  public show: boolean;
   audioElement: any;
-  contextUri: PlayTrack;
   subscription: Subscription;
 
-  constructor(private playlistService: SpotifyPlaylistService) { }
+  constructor(private playlistService: SpotifyPlaylistService) {
+    this.show = false;
+  }
 
   ngOnInit() {
     this.audioElement = new Audio();
