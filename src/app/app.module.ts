@@ -21,6 +21,7 @@ import { ArtistsComponent } from './components/artists/artists.component';
 import { CreatePlaylistComponent } from './components/playlists/create-playlist/create-playlist.component';
 import { MaterialModule } from './material-module/material-module.module';
 import { HeaderComponent } from './header/header.component';
+import { AlbumDetailsComponent } from './components/albums/album-details/album-details.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { HeaderComponent } from './header/header.component';
     AlbumsComponent,
     ArtistsComponent,
     CreatePlaylistComponent,
-    HeaderComponent
+    HeaderComponent,
+    AlbumDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, OnDestroy, EventEmitter } from '@angular/core';
 import { SpotifyPlaylistService } from '../spotify-playlist.service';
 import { Playlist } from '../playlist';
 import { Track, PlayTrack } from '../../track';
@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() playlist: Playlist;
+  @Output() delTrack = new EventEmitter();
+  track: Track;
 
   tracks: Track[];
 
@@ -57,8 +59,9 @@ export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  deleteTrack(uri: string) {
-
+  deleteTrack(track: Track) {
+   // this.track = track;
+    this.delTrack.emit(track);
   }
 
 }

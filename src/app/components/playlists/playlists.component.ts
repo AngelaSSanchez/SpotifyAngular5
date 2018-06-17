@@ -3,8 +3,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SpotifyLoginService } from '../../spotify-login.service';
 import { SpotifyPlaylistService } from './spotify-playlist.service';
-import { Playlist } from './playlist';
+import { Playlist, Playlists } from './playlist';
 import { CreatePlaylistComponent } from './create-playlist/create-playlist.component';
+import { Profile } from '../track';
 
 @Component({
   selector: 'app-playlists',
@@ -16,10 +17,11 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   token: string;
   username: string;
-  profile: any;
-  playlists: Playlist[];
+  profile: Profile;
+  playlists: Playlists;
   selectedPlaylist: Playlist;
   playlistName: string;
+  index: number;
 
   private subscription: ISubscription;
 
@@ -29,7 +31,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
             ) { }
 
   ngOnInit() {
-    this.getProfileData();
+    this.getProfile();
     this.getPlaylists();
   }
 
@@ -37,24 +39,17 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-
-
-  getProfileData() {
-    this.subscription = this.spotifyService.getProfile().subscribe(
-      profile => this.profile = profile
-    );
-  }
-
   getPlaylists() {
     this.subscription = this.playlistService.getPlaylists().subscribe(
-      results => {
-         this.playlists = results.items;
+      playlists => {
+         this.playlists = playlists;
       }
     );
   }
 
-  onSelect(playlist: Playlist) {
+  onSelect(playlist: Playlist, index: number) {
     this.selectedPlaylist = playlist;
+    this.index = index;
   }
 
   openDialog(): void {
@@ -74,5 +69,20 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   createPlaylist(playlistName: string) {
     this.playlistService.createPlaylist(playlistName, this.profile.id);
     this.getPlaylists();
+  }
+
+  deleteTrack(track) {
+    this.playlistService.deleteTrackFromPlaylist(this.selectedPlaylist.id, this.profile.id, track.uri, this.index);
+    console.log('Track deleted' + track.uri);
+    console.log('selectedPlay' + this.selectedPlaylist.id);
+    console.log('Profile' + this.profile.id);
+  }
+
+  getProfile() {
+    this.subscription = this.spotifyService.getProfile().subscribe(
+      profile => {
+        this.profile = profile;
+     }
+    );
   }
 }

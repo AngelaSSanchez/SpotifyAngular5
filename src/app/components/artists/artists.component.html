@@ -1,6 +1,11 @@
 <app-header></app-header>
+<div>
+  <h1>
+  
+  </h1>
+  <button (click)="followArtist()">Follow</button>
+</div>
 
-<h1></h1>
 <div *ngIf="tracks">
   <li *ngFor="let track of tracks" >
     {{track.name}} 
@@ -13,10 +18,9 @@
 </div>
 
 <div *ngIf="albums">
-  <li *ngFor="let album of albums" >
-    {{album.name}} 
-  </li>
+  <app-album-details *ngFor="let album of albums" [album]="album">
+  </app-album-details>
 </div>
 
-<button (click)="followArtist()">Follow</button>
+
 <a [routerLink]="['/playlists']">Playlists</a>

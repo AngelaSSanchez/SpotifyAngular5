@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SpotifyLoginService } from '../spotify-login.service';
+import { Profile } from '../components/track';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,8 @@ import { SpotifyLoginService } from '../spotify-login.service';
 export class HeaderComponent implements OnInit {
 
   private subscription: ISubscription;
-  profile: any;
+  @Output() userProfile = new EventEmitter();
+  profile: Profile;
 
   constructor(private spotifyService: SpotifyLoginService) { }
 
@@ -26,6 +28,7 @@ export class HeaderComponent implements OnInit {
     this.subscription = this.spotifyService.getProfile().subscribe(
       profile => this.profile = profile
     );
+    this.userProfile.emit(this.profile);
   }
 
 }

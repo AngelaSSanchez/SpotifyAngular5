@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { SpotifyArtistsService } from './spotify-artists.service';
 import { Track, PlayTrack, Tracks } from '../track';
 import { Album, Albums } from '../albums';
@@ -17,6 +18,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   id: string = '';
   tracks: Tracks;
   albums: Album[];
+  album: Album;
 
   public show:boolean = false;
   audioElement: any;

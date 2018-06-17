@@ -10,17 +10,9 @@ const ROUTES: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: SignInComponent },
     { path: 'callback', component: CallbackComponent },
-    { path: 'artists/:id', component: ArtistsComponent},
     { path: 'playlists', component: PlaylistsComponent},
-    { path: 'albums',
-      component: AlbumsComponent,
-      children: [
-        {
-          path: ':id',
-          component: AlbumsComponent
-        }
-      ]
-    },
+    { path: 'artists/:id', component: ArtistsComponent},
+    { path: 'albums/:id', component: AlbumsComponent },
     { path: '**', component: SignInComponent }
 ];
 

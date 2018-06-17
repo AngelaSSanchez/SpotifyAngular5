@@ -7,6 +7,7 @@ export class Track {
     name: string;
     preview_url: string;
     uri: string;
+    duration_ms: number;
 }
 
 export class PlayTrack {
@@ -15,4 +16,8 @@ export class PlayTrack {
     constructor() {
         this.uris = [];
     }
+}
+
+export class Profile {
+    id: string;
 }

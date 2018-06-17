@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { SpotifyLoginService } from '../../spotify-login.service';
 import { PlayTrack } from '../track';
-
+import { Playlist, Playlists } from './playlist';
 @Injectable()
 export class SpotifyPlaylistService {
 
@@ -14,8 +14,8 @@ export class SpotifyPlaylistService {
 
   constructor(private http: HttpClient, private spotifyUrl: SpotifyLoginService) { }
 
-  public getPlaylists(): Observable<any> {
-    return this.http.get(this.spotifyUrl.getBaseUrl().concat('/playlists')).pipe(map(resp => resp));
+  public getPlaylists(): Observable<Playlists> {
+    return this.http.get(this.spotifyUrl.getBaseUrl().concat('/playlists')).pipe(map(resp => <Playlists>resp));
   }
 
   public getPlaylistTracks(href: string): Observable<any> {
@@ -27,10 +27,13 @@ export class SpotifyPlaylistService {
     return this.http.post('https://api.spotify.com/v1/users/' + profileId + '/playlists', {name: playlistName}).subscribe(resp => resp);
   }
 
-  public deleteTrackFromPlaylist(playlistId: string, profileId: string, trackUri: string) {
-    let search = new URLSearchParams();
-    search.set('tracks', 'moo');
-   // return this.http.delete('https://api.spotify.com/v1/users/' + profileId + '/playlists/' + playlistId + '/tracks', {search})
-   // .subscribe(resp => resp);
+  public deleteTrackFromPlaylist(playlistId: string, profileId: string, trackUri: string, index: number) {
+    let uri = decodeURIComponent('[{"uri": "' + trackUri + '", "positions": [' + index.toString() + ']}]');
+    console.log('Uri' + uri);
+    let params = new HttpParams().append('tracks', uri);
+    console.log('param' + params);
+    return this.http.delete('https://api.spotify.com/v1/users/' + profileId + '/playlists/' + playlistId + '/tracks',
+     {params})
+    .subscribe(resp => resp);
   }
 }
