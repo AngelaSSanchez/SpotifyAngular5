@@ -14,24 +14,20 @@ import { SpotifyPlaylistService } from '../../sevices/spotify-playlist/spotify-p
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
 
-  token: string;
-  username: string;
-  profile: Profile;
+  userId: string;
   playlists: Playlists;
   selectedPlaylist: Playlist;
-  auxPlaylist: Playlist;
   playlistName: string;
-  index: number;
-  playlistTracks: TrackLink;
 
   private subscription: ISubscription;
 
   constructor(private playlistService: SpotifyPlaylistService,
               public dialog: MatDialog
-            ) { }
+            ) {
+              this.userId = localStorage.getItem('user');
+            }
 
   ngOnInit() {
-    this.getProfile();
     this.getPlaylists();
   }
 
@@ -39,12 +35,14 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getPlaylists() {
+  getPlaylists(): Playlists {
     this.subscription = this.playlistService.getPlaylists().subscribe(
       playlists => {
          this.playlists = playlists;
       }
     );
+
+    return this.playlists;
   }
 
   onSelect(playlist: Playlist) {
@@ -66,8 +64,11 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   createPlaylist(playlistName: string) {
-    this.playlistService.createPlaylist(playlistName, this.profile.id);
-    this.getPlaylists();
+    this.playlistService.createPlaylist(playlistName, this.userId).subscribe(
+      playlists => {
+        this.playlists = this.getPlaylists();
+      }
+    );
   }
 
   deleteTrack(track) {
@@ -75,11 +76,4 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     alert('Cancion eliminada de la lista');
   }
 
-  getProfile() {
-    this.subscription = this.playlistService.getProfile().subscribe(
-      profile => {
-        this.profile = profile;
-     }
-    );
-  }
 }

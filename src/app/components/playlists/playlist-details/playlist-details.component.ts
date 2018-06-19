@@ -4,20 +4,23 @@ import { Playlist, TrackLink } from '../../../models/playlist';
 import { Track, Tracks } from '../../../models/track';
 import { Subscription } from 'rxjs';
 import { Profile } from '../../../models/profile';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist-details.component.html',
   styleUrls: ['./playlist-details.component.css'],
-  providers: []
+  providers: [SpotifyPlaylistService]
 })
-export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
+export class PlaylistDetailsComponent implements OnInit, OnDestroy {
 
-  @Input() playlist: Playlist;
   @Input() playlistTracks: TrackLink;
   @Output() delTrack = new EventEmitter();
   track: Track;
   profile: Profile;
+  playlistId: string;
+  userId: string;
+  playlist: Playlist;
 
   tracks: Tracks;
 
@@ -25,33 +28,48 @@ export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
   audioElement: any;
   subscription: Subscription;
 
-  constructor(private playlistService: SpotifyPlaylistService) {
+  constructor(private playlistService: SpotifyPlaylistService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
     this.show = false;
+    this.playlistId = '';
+    this.userId = localStorage.getItem('user');
   }
 
   ngOnInit() {
     this.audioElement = new Audio();
-    this.getProfile();
+    this.subscription = this.activatedRoute.params.subscribe(
+      (params) => {
+        this.playlistId = params['id'];
+      }
+    );
+    if (this.playlistId !== '') {
+      this.getPlaylist(this.playlistId);
+      this.getTracks(this.playlistId);
+    }
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  ngOnChanges() {
-    if (this.playlist || this.tracks) {
-      this.getTracks();
-    }
+  getPlaylist(id: string): Playlist {
+    this.subscription = this.playlistService.getPlaylist(this.userId, id).subscribe(
+      playlist => {
+        this.playlist = playlist;
+      }
+    );
+
+    return this.playlist;
   }
 
-  getTracks(): Tracks {
-    this.subscription = this.playlistService.getPlaylistTracks(this.playlist.tracks.href).subscribe(
+  getTracks(id: string): Tracks {
+    this.subscription = this.playlistService.getPlaylistTracks(this.userId, id).subscribe(
       tracks => {
         this.tracks = tracks;
         console.log(this.tracks);
      }
     );
-
     return this.tracks;
   }
 
@@ -60,21 +78,13 @@ export class PlaylistDetailsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   deleteTrack(track: Track) {
-    this.playlistService.deleteTrackFromPlaylist(this.playlist.id, this.profile.id, track.uri)
+    this.playlistService.deleteTrackFromPlaylist(this.playlistId, this.userId, track.uri)
     .subscribe(
       tracks => {
-        this.tracks = this.getTracks();
+        this.tracks = this.getTracks(this.playlistId);
       }
     );
     this.delTrack.emit(track);
-  }
-
-  getProfile() {
-    this.subscription = this.playlistService.getProfile().subscribe(
-      profile => {
-        this.profile = profile;
-     }
-    );
   }
 
 }

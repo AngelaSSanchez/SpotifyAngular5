@@ -9,7 +9,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { CallbackComponent } from './sign-in/callback/callback.component';
+import { CallbackComponent } from './callback/callback.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
@@ -40,7 +40,7 @@ import { UserRoutingModule } from './components/header/user-routing/user-routing
     HeaderComponent,
     AlbumDetailsComponent,
     UserComponent,
-    FollowingComponent
+    FollowingComponent,
   ],
   imports: [
     BrowserModule,

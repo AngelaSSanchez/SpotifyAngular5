@@ -27,7 +27,6 @@ export class AlbumsComponent implements OnInit {
     this.subscription = this.activatedRoute.params.subscribe(
       (params) => {
         this.id = params['id'];
-        console.log('ID ' + params['id'] );
       }
     );
     if (this.id !== '') {

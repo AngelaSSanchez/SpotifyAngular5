@@ -22,13 +22,18 @@ export class SpotifyPlaylistService extends SpotifyProfileService {
     return this.http.get(this.getBaseUrl().concat('/playlists')).pipe(map(resp => <Playlists>resp));
   }
 
-  public getPlaylistTracks(href: string): Observable<Tracks> {
-    return this.http.get(href).pipe(map(resp => <Tracks>resp));
+  public getPlaylist(profileId, id): Observable<Playlist> {
+    return this.http.get('https://api.spotify.com/v1/users/' + profileId + '/playlists/' + id).pipe(map(resp => <Playlist>resp));
+  }
+
+  public getPlaylistTracks(profileId: string, id: string): Observable<Tracks> {
+    return this.http.get('https://api.spotify.com/v1/users/' + profileId + '/playlists/' + id + '/tracks')
+    .pipe(map(resp => <Tracks>resp));
   }
 
   public createPlaylist(playlistName: string, profileId: string) {
     console.log('Service' + playlistName);
-    return this.http.post('https://api.spotify.com/v1/users/' + profileId + '/playlists', {name: playlistName}).subscribe(resp => resp);
+    return this.http.post('https://api.spotify.com/v1/users/' + profileId + '/playlists', {name: playlistName});
   }
 
   public deleteTrackFromPlaylist(playlistId: string, profileId: string, trackUri: string) {
@@ -38,6 +43,10 @@ export class SpotifyPlaylistService extends SpotifyProfileService {
         tracks: [{uri: trackUri}]
       }
     });
+  }
+
+  public getUrl(profileId: string): string {
+    return 'https://api.spotify.com/v1/users/' + profileId + '/playlists/';
   }
 
 }

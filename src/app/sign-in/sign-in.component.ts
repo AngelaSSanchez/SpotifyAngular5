@@ -10,9 +10,9 @@ export class SignInComponent implements OnInit {
 
   url: string;
 
-    constructor(public spotifyService: SpotifyLoginService) {}
+  constructor(public spotifyService: SpotifyLoginService) {}
 
-    ngOnInit() {
-      this.url = this.spotifyService.getUrl();
-    }
+  ngOnInit() {
+    this.url = this.spotifyService.getUrl();
+  }
 }

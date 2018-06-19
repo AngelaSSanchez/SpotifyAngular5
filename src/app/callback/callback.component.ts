@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SpotifyProfileService } from '../sevices/spotify-profile/spotify-profile.service';
+import { Profile } from '../models/profile';
 @Component({
   selector: 'app-callback',
   templateUrl: './callback.component.html',
@@ -8,7 +10,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CallbackComponent implements OnInit {
 
   token: string;
-  constructor(private route: Router) { }
+  user: any;
+  constructor(private route: Router,
+              private serviceProfile: SpotifyProfileService) { }
 
   ngOnInit() {
     this.getAccessToken();
@@ -22,7 +26,16 @@ export class CallbackComponent implements OnInit {
   getAccessToken() {
     this.token = this.getParameterByName('access_token');
     localStorage.setItem('token', this.token);
+    this.getUser();
+    console.log(localStorage.getItem('user'));
     this.route.navigate(['/playlists']);
+  }
+
+  async getUser() {
+     this.user = await this.serviceProfile.getUser();
+
+     console.log(this.user);
+     localStorage.setItem('user', this.user.id);
   }
 
 }

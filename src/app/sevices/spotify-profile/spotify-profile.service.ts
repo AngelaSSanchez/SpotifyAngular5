@@ -29,6 +29,11 @@ export class SpotifyProfileService {
     return this.http.get(this.baseUrl.concat('/playlists')).pipe(map(resp => resp));
   }
 
+  async getUser() {
+    const user = await this.http.get<Profile>(this.baseUrl).toPromise();
+    return user;
+  }
+
   playTrack(src: string) {
     this.show = !this.show;
 

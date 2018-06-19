@@ -1,16 +1,13 @@
-<app-header (userProfile)="getProfile($event)"></app-header>
+<app-header></app-header>
 
 <h2>PLAYLISTS</h2>
 <button mat-raised-button (click)="openDialog()">Nueva Playlist</button>
 
 <ul *ngIf="playlists">
   <li *ngFor="let playlist of playlists.items"  
-    [class.selected]="playlist === selectedPlaylist"
-    (click)="onSelect(playlist, i)">
-        {{playlist.name}}
+    [class.selected]="playlist === selectedPlaylist">
+       <a [routerLink]="['/playlists', playlist.id]">{{playlist.name}}</a> 
   </li>
 </ul>
-
-<app-playlist [playlist]="selectedPlaylist" (delTrack)="deleteTrack($event)"></app-playlist>
 
 <router-outlet></router-outlet>

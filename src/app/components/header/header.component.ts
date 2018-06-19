@@ -13,10 +13,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscription: ISubscription;
   @Output() userProfile = new EventEmitter();
   profile: Profile;
+  userId: string;
 
   constructor(private spotifyService: SpotifyProfileService) { }
 
   ngOnInit() {
+    this.userId = localStorage.getItem('user');
     this.getProfileData();
   }
 
