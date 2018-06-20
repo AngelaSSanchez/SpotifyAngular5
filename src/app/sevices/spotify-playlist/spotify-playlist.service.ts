@@ -6,13 +6,10 @@ import { map } from 'rxjs/operators';
 
 import { Playlist, Playlists } from '../../models/playlist';
 import { SpotifyProfileService } from '../spotify-profile/spotify-profile.service';
-import { Profile } from '../../models/profile';
 import { Tracks } from '../../models/track';
 
 @Injectable()
 export class SpotifyPlaylistService extends SpotifyProfileService {
-
-  profile: Profile;
 
   constructor(public http: HttpClient) {
     super(http);

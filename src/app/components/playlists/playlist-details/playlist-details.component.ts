@@ -3,7 +3,7 @@ import { SpotifyPlaylistService } from '../../../sevices/spotify-playlist/spotif
 import { Playlist, TrackLink } from '../../../models/playlist';
 import { Track, Tracks } from '../../../models/track';
 import { Subscription } from 'rxjs';
-import { Profile } from '../../../models/profile';
+import { User } from '../../../models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -14,10 +14,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class PlaylistDetailsComponent implements OnInit, OnDestroy {
 
-  @Input() playlistTracks: TrackLink;
-  @Output() delTrack = new EventEmitter();
+ @Output() delTrack = new EventEmitter();
   track: Track;
-  profile: Profile;
+  profile: User;
   playlistId: string;
   userId: string;
   playlist: Playlist;
@@ -27,6 +26,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   public show: boolean;
   audioElement: any;
   subscription: Subscription;
+  sub: Subscription;
 
   constructor(private playlistService: SpotifyPlaylistService,
               private router: Router,
@@ -34,15 +34,20 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
     this.show = false;
     this.playlistId = '';
     this.userId = localStorage.getItem('user');
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
   }
 
   ngOnInit() {
     this.audioElement = new Audio();
-    this.subscription = this.activatedRoute.params.subscribe(
-      (params) => {
+    console.log('ENTRA ' + this.playlistId);
+    this.sub = this.activatedRoute.params.subscribe(
+      params => {
         this.playlistId = params['id'];
       }
     );
+    console.log('ID ' + this.playlistId);
     if (this.playlistId !== '') {
       this.getPlaylist(this.playlistId);
       this.getTracks(this.playlistId);
@@ -50,7 +55,9 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    console.log('MUERTO');
+    //this.subscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 
   getPlaylist(id: string): Playlist {

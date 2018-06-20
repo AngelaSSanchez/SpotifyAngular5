@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { Playlist, Playlists, TrackLink } from '../../models/playlist';
 import { CreatePlaylistComponent } from './create-playlist/create-playlist.component';
-import { Profile } from '../../models/profile';
 import { SpotifyPlaylistService } from '../../sevices/spotify-playlist/spotify-playlist.service';
 
 @Component({

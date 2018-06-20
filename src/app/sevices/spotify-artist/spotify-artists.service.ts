@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Tracks } from '../../models/track';
 import { Albums } from '../../models/albums';
 import { SpotifyProfileService } from '../spotify-profile/spotify-profile.service';
+import { Artist } from '../../models/artists';
 
 @Injectable()
 export class SpotifyArtistsService extends SpotifyProfileService {
@@ -21,6 +22,10 @@ export class SpotifyArtistsService extends SpotifyProfileService {
   }
   public getArtistAlbums(id: string): Observable<Albums> {
     return this.http.get(this.artistUrl.concat(id).concat('/albums')).pipe(map(resp => <Albums>resp));
+  }
+
+  public getArtistById(id: string): Observable<Artist> {
+    return this.http.get(this.artistUrl.concat(id)).pipe(map(resp => <Artist>resp));
   }
 
   public followArtists(id: string) {

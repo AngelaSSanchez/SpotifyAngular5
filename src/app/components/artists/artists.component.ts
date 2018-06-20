@@ -5,6 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { Track, Tracks } from '../../models/track';
 import { Album, Albums } from '../../models/albums';
 import { SpotifyArtistsService } from '../../sevices/spotify-artist/spotify-artists.service';
+import { Artist } from '../../models/artists';
 
 @Component({
   selector: 'app-artists',
@@ -19,6 +20,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   tracks: Tracks;
   albums: Album[];
   album: Album;
+  artist: Artist;
 
   public show: boolean;
   audioElement: any;
@@ -43,6 +45,15 @@ export class ArtistsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  getArtistById(id: string) {
+    this.subscription = this.artistService.getArtistById(id).subscribe(
+      artist => {
+        this.artist = artist;
+        console.log('TopTracks' + this.tracks);
+      }
+    );
   }
 
   getArtistTopTracks(id: string) {

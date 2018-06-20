@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  userId: string;
+
+  constructor() {
+    this.userId = localStorage.getItem('user');
+  }
 
   ngOnInit() {
   }

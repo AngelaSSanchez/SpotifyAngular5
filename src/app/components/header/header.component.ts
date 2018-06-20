@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { SubscriptionLike as ISubscription } from 'rxjs';
-import { Profile } from '../../models/profile';
+import { User } from '../../models/user';
 import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-profile.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private subscription: ISubscription;
   @Output() userProfile = new EventEmitter();
-  profile: Profile;
+  profile: User;
   userId: string;
 
   constructor(private spotifyService: SpotifyProfileService) { }

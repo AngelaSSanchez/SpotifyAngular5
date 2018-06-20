@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Profile } from '../../models/profile';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class SpotifyProfileService {
 
   constructor(public http: HttpClient) { }
 
-  public getProfile(): Observable<Profile> {
-    return this.http.get(this.baseUrl).pipe(map(resp => <Profile>resp));
+  public getProfile(): Observable<User> {
+    return this.http.get(this.baseUrl).pipe(map(resp => <User>resp));
   }
 
   public getBaseUrl(): string {
@@ -30,7 +30,7 @@ export class SpotifyProfileService {
   }
 
   async getUser() {
-    const user = await this.http.get<Profile>(this.baseUrl).toPromise();
+    const user = await this.http.get<User>(this.baseUrl).toPromise();
     return user;
   }
 
