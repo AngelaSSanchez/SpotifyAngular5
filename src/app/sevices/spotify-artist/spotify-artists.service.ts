@@ -5,21 +5,24 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tracks } from '../../models/track';
 import { Albums } from '../../models/albums';
-import { SpotifyProfileService } from '../spotify-profile/spotify-profile.service';
 import { Artist } from '../../models/artists';
+import { SpotifyPlaylistService } from '../spotify-playlist/spotify-playlist.service';
 
 @Injectable()
-export class SpotifyArtistsService extends SpotifyProfileService {
+export class SpotifyArtistsService extends SpotifyPlaylistService {
 
   private artistUrl = 'https://api.spotify.com/v1/artists/';
+  userId: string;
 
   constructor(public http: HttpClient) {
     super( http );
+    this.userId = localStorage.getItem('user');
   }
 
   public getArtistTopTracks(id: string): Observable<Tracks> {
     return this.http.get(this.artistUrl.concat(id).concat('/top-tracks?country=ES')).pipe(map(resp => <Tracks>resp));
   }
+
   public getArtistAlbums(id: string): Observable<Albums> {
     return this.http.get(this.artistUrl.concat(id).concat('/albums')).pipe(map(resp => <Albums>resp));
   }
@@ -29,6 +32,6 @@ export class SpotifyArtistsService extends SpotifyProfileService {
   }
 
   public followArtists(id: string) {
-    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=' + id, null).subscribe(resp => resp);
+    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=${id}', null).subscribe(resp => resp);
   }
 }

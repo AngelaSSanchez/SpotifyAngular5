@@ -10,9 +10,11 @@
   <li *ngFor="let track of tracks" >
     {{track.name}} 
     <button (click)="playTrack(track.preview_url)">Play</button>
-    <button mat-button [matMenuTriggerFor]="menu">V</button>
+    <button mat-button [matMenuTriggerFor]="menu">+</button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="deleteTrack(track.uri)">Delete playlist</button>
+      <span *ngFor="let playlist of playlists?.items">
+      <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
+    </span>
     </mat-menu>   
   </li>
 </div>

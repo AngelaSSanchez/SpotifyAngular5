@@ -8,8 +8,7 @@ import { SpotifyPlaylistService } from '../../sevices/spotify-playlist/spotify-p
 @Component({
   selector: 'app-playlists',
   templateUrl: './playlists.component.html',
-  styleUrls: ['./playlists.component.css'],
-  providers: [SpotifyPlaylistService],
+  styleUrls: ['./playlists.component.css']
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
 

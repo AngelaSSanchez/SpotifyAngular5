@@ -6,6 +6,7 @@ import { Track, Tracks } from '../../models/track';
 import { Album, Albums } from '../../models/albums';
 import { SpotifyArtistsService } from '../../sevices/spotify-artist/spotify-artists.service';
 import { Artist } from '../../models/artists';
+import { Playlists } from '../../models/playlist';
 
 @Component({
   selector: 'app-artists',
@@ -21,6 +22,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   albums: Album[];
   album: Album;
   artist: Artist;
+  playlists: Playlists;
 
   public show: boolean;
   audioElement: any;
@@ -39,16 +41,18 @@ export class ArtistsComponent implements OnInit, OnDestroy {
         this.id = params['id'];
       }
     );
-    this.getArtistTopTracks(this.id);
-    this.getArtistsAlbums(this.id);
+    this.getArtistById();
+    this.getArtistTopTracks();
+    this.getArtistsAlbums();
+    this.getPlaylists();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  getArtistById(id: string) {
-    this.subscription = this.artistService.getArtistById(id).subscribe(
+  getArtistById() {
+    this.subscription = this.artistService.getArtistById(this.id).subscribe(
       artist => {
         this.artist = artist;
         console.log('TopTracks' + this.tracks);
@@ -56,8 +60,8 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     );
   }
 
-  getArtistTopTracks(id: string) {
-    this.subscription = this.artistService.getArtistTopTracks(id).subscribe(
+  getArtistTopTracks() {
+    this.subscription = this.artistService.getArtistTopTracks(this.id).subscribe(
         tracks => {
           this.tracks = tracks['tracks'];
           console.log('TopTracks' + this.tracks);
@@ -65,8 +69,8 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     );
   }
 
-  getArtistsAlbums(id: string) {
-    this.subscription = this.artistService.getArtistAlbums(id).subscribe(
+  getArtistsAlbums() {
+    this.subscription = this.artistService.getArtistAlbums(this.id).subscribe(
         albums => {
           this.albums = albums.items;
           console.log('Albums' + this.albums);
@@ -90,6 +94,20 @@ export class ArtistsComponent implements OnInit, OnDestroy {
       this.audioElement.pause();
     }
     */
+  }
+
+  getPlaylists(): Playlists {
+    this.subscription = this.artistService.getPlaylists().subscribe(
+      playlists => {
+         this.playlists = playlists;
+      }
+    );
+
+    return this.playlists;
+  }
+
+  addToPlaylist(trackUri: string, playlistId: string) {
+    this.subscription = this.artistService.addTrackToPlaylist(trackUri, playlistId).subscribe();
   }
 
 }

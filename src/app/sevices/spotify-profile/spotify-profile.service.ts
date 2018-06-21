@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../../models/user';
+import { Artist } from '../../models/artists';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,16 @@ export class SpotifyProfileService {
 
   constructor(public http: HttpClient) { }
 
-  public getProfile(): Observable<User> {
+  public getUserProfile(): Observable<User> {
     return this.http.get(this.baseUrl).pipe(map(resp => <User>resp));
+  }
+
+  public getUserFollowing(): Observable<Artist> {
+    return this.http.get('https://api.spotify.com/v1/me/following?type=artist').pipe(map(resp => <Artist> resp));
   }
 
   public getBaseUrl(): string {
     return this.baseUrl;
-  }
-
-  public getPlaylists(): Observable<any> {
-    return this.http.get(this.baseUrl.concat('/playlists')).pipe(map(resp => resp));
   }
 
   async getUser() {

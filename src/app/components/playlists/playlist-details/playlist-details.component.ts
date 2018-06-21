@@ -9,8 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist-details.component.html',
-  styleUrls: ['./playlist-details.component.css'],
-  providers: [SpotifyPlaylistService]
+  styleUrls: ['./playlist-details.component.css']
 })
 export class PlaylistDetailsComponent implements OnInit, OnDestroy {
 
@@ -26,7 +25,6 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   public show: boolean;
   audioElement: any;
   subscription: Subscription;
-  sub: Subscription;
 
   constructor(private playlistService: SpotifyPlaylistService,
               private router: Router,
@@ -41,13 +39,11 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.audioElement = new Audio();
-    console.log('ENTRA ' + this.playlistId);
-    this.sub = this.activatedRoute.params.subscribe(
+    this.subscription = this.activatedRoute.params.subscribe(
       params => {
         this.playlistId = params['id'];
       }
     );
-    console.log('ID ' + this.playlistId);
     if (this.playlistId !== '') {
       this.getPlaylist(this.playlistId);
       this.getTracks(this.playlistId);
@@ -55,9 +51,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('MUERTO');
-    //this.subscription.unsubscribe();
-    this.sub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   getPlaylist(id: string): Playlist {

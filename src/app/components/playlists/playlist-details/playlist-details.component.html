@@ -9,7 +9,7 @@
     <li *ngFor="let track of tracks.items" >
       {{track.track.name}} 
       <span *ngFor="let artist of  track.track.artists" >
-          <a [routerLink]="['/artists', artist.id]">{{artist.name}} art</a>
+          <a [routerLink]="['/artists', artist.id]"> {{artist.name | replaceAmp}} </a>
       </span>
       <a [routerLink]="['/albums', track.track.album.id]">Album</a>
       <button (click)="playTrack(track.track.preview_url)">Play</button>

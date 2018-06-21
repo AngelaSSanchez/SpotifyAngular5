@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { SubscriptionLike as ISubscription } from 'rxjs';
+import { Component, OnInit} from '@angular/core';
 import { User } from '../../models/user';
 import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-profile.service';
 
@@ -8,29 +7,15 @@ import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-pro
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
 
-  private subscription: ISubscription;
-  @Output() userProfile = new EventEmitter();
-  profile: User;
   userId: string;
 
-  constructor(private spotifyService: SpotifyProfileService) { }
+  constructor(private spotifyService: SpotifyProfileService) {
+    this.userId = localStorage.getItem('user');
+  }
 
   ngOnInit() {
-    this.userId = localStorage.getItem('user');
-    this.getProfileData();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  getProfileData() {
-    this.subscription = this.spotifyService.getProfile().subscribe(
-      profile => this.profile = profile
-    );
-    this.userProfile.emit(this.profile);
   }
 
 }

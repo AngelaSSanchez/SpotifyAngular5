@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tracks } from '../../models/track';
 import { Albums, Album } from '../../models/albums';
-import { SpotifyProfileService } from '../spotify-profile/spotify-profile.service';
+import { SpotifyPlaylistService } from '../spotify-playlist/spotify-playlist.service';
 
 @Injectable()
-export class SpotifyAlbumsService extends SpotifyProfileService {
+export class SpotifyAlbumsService extends SpotifyPlaylistService {
 
   private albumUrl = 'https://api.spotify.com/v1/albums/';
 

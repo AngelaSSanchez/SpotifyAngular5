@@ -26,6 +26,8 @@ import { SpotifyProfileService } from './sevices/spotify-profile/spotify-profile
 import { UserComponent } from './components/header/user/user.component';
 import { FollowingComponent } from './components/header/user/following/following.component';
 import { UserRoutingModule } from './components/header/user-routing/user-routing.module';
+import { ReplaceAmpPipe } from './replace-amp.pipe';
+import { SpotifyPlaylistService } from './sevices/spotify-playlist/spotify-playlist.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { UserRoutingModule } from './components/header/user-routing/user-routing
     AlbumDetailsComponent,
     UserComponent,
     FollowingComponent,
+    ReplaceAmpPipe,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import { UserRoutingModule } from './components/header/user-routing/user-routing
   providers: [
     SpotifyLoginService,
     SpotifyProfileService,
+    SpotifyPlaylistService,
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy
