@@ -1,10 +1,11 @@
-  <app-playlists></app-playlists>
+<app-header></app-header>
   <h2>{{ playlist?.name | uppercase }} Details</h2>
   <div>
     <label>name:
       {{playlist?.name}}
     </label>
   </div>
+
   <div *ngIf="tracks">
     <li *ngFor="let track of tracks.items" >
       {{track.track.name}} 

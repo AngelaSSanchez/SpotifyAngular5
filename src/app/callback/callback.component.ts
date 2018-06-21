@@ -26,7 +26,7 @@ export class CallbackComponent implements OnInit {
     this.token = this.getParameterByName('access_token');
     localStorage.setItem('token', this.token);
     this.getUser();
-    this.route.navigate(['/playlists']);
+    this.route.navigate(['/main']);
   }
 
   async getUser() {

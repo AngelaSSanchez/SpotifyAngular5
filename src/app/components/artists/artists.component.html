@@ -1,4 +1,4 @@
-<app-playlists></app-playlists>
+<app-header></app-header>
 <div>
   <h1>
   
@@ -6,21 +6,30 @@
   <button (click)="followArtist()">Follow</button>
 </div>
 
-<div *ngIf="tracks">
-  <li *ngFor="let track of tracks" >
-    {{track.name}} 
-    <button (click)="playTrack(track.preview_url)">Play</button>
-    <button mat-button [matMenuTriggerFor]="menu">+</button>
-    <mat-menu #menu="matMenu">
-      <span *ngFor="let playlist of playlists?.items">
-      <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
-    </span>
-    </mat-menu>   
-  </li>
-</div>
+<table class="table table-hover table-sm" *ngIf="tracks">
+    <thead>
+      <tr>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let track of tracks">
+        <td colspan="2">{{track.name}}</td>
+        <td colspan="2"><a [routerLink]="['/albums', track.album.id]">{{track.album.name}}</a></td>
+        <td colspan="2"><button (click)="playTrack(track.preview_url)">Play</button></td>
+        <td> <button mat-button [matMenuTriggerFor]="menu">+</button>
+          <mat-menu #menu="matMenu">
+            <span *ngFor="let playlist of playlists?.items">
+             <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
+            </span>
+          </mat-menu>  </td>
+      </tr>
+    </tbody>
+</table>
 
 <div *ngIf="albums">
-  <app-album-details *ngFor="let album of albums" [album]="album">
+  <app-album-details *ngFor="let album of albums.items" [album]="album">
   </app-album-details>
 </div>
 

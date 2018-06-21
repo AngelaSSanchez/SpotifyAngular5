@@ -6,15 +6,18 @@ import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { ArtistsComponent } from './components/artists/artists.component';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { PlaylistDetailsComponent } from './components/playlists/playlist-details/playlist-details.component';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
+import { HeaderComponent } from './components/header/header.component';
 
 const ROUTES: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: SignInComponent },
     { path: 'callback', component: CallbackComponent },
-    { path: 'playlists', component: PlaylistsComponent},
-    { path: 'playlists/:id', component: PlaylistDetailsComponent},
+    { path: 'main', component: HeaderComponent },
+    { path: 'playlist/:id', component: PlaylistDetailsComponent},
     { path: 'artists/:id', component: ArtistsComponent},
     { path: 'albums/:id', component: AlbumsComponent },
+    { path: 'results', component: SearchResultsComponent },
     { path: '**', component: SignInComponent }
 ];
 

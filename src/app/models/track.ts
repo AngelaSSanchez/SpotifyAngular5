@@ -1,3 +1,5 @@
+import { Album } from "./albums";
+
 export class Tracks {
     items: Track[];
 }
@@ -8,5 +10,6 @@ export class Track {
     preview_url: string;
     uri: string;
     duration_ms: number;
+    //album: Album;
 }
 

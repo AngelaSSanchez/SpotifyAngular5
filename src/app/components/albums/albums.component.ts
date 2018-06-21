@@ -30,12 +30,12 @@ export class AlbumsComponent implements OnInit {
       }
     );
     if (this.id !== '') {
-      this.getAlbumById(this.id);
+      this.getAlbumById();
     }
   }
 
-  getAlbumById (id: string) {
-    this.subscription = this.spotifyAlbums.getAlbumById(id).subscribe(
+  getAlbumById () {
+    this.subscription = this.spotifyAlbums.getAlbumById(this.id).subscribe(
       album => {
         this.album = album;
         console.log('Album' + this.album);

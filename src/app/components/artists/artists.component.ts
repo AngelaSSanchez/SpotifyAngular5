@@ -19,7 +19,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   id: string;
   tracks: Tracks;
-  albums: Album[];
+  albums: Albums;
   album: Album;
   artist: Artist;
   playlists: Playlists;
@@ -55,7 +55,6 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     this.subscription = this.artistService.getArtistById(this.id).subscribe(
       artist => {
         this.artist = artist;
-        console.log('TopTracks' + this.tracks);
       }
     );
   }
@@ -72,7 +71,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   getArtistsAlbums() {
     this.subscription = this.artistService.getArtistAlbums(this.id).subscribe(
         albums => {
-          this.albums = albums.items;
+          this.albums = albums;
           console.log('Albums' + this.albums);
       }
     );
