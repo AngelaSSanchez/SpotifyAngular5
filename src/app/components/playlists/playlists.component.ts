@@ -19,6 +19,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   private subscription: ISubscription;
 
+  // Se inyecta el servicio en el componente
   constructor(private playlistService: SpotifyPlaylistService,
               public dialog: MatDialog
             ) {

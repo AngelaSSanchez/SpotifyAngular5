@@ -1,4 +1,4 @@
-import { Images } from "./images";
+import { Images } from './images';
 
 export interface Playlists {
     items: Playlist[];

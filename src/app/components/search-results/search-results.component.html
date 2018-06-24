@@ -1,1 +1,71 @@
 <app-header></app-header>
+<div *ngIf="!object">
+   <h1>Hi!!!</h1> 
+
+   <h3>Start exploring by searching or listening to your Playlists!!!</h3>
+</div>
+<div *ngIf="object">
+    <div *ngIf="tracks">
+        <h3>Songs</h3>
+        <table class="table table-hover table-sm">
+            <tbody>
+                <tr *ngFor="let track of tracks.items">
+                <td colspan="4">{{track.name}}</td>
+                <td colspan="2">
+                    <span *ngFor="let artist of  track.artists" >
+                    <a [routerLink]="['/artists', artist.id]"> {{artist.name | replaceAmp}}, </a>
+                    </span>
+                </td>
+                <td colspan="2"><a [routerLink]="['/albums', track.album.id]">{{track.album.name}}</a></td>
+                <td colspan="2">{{track.duration_ms | date:'mm:ss'}}</td>
+                <td colspan="2"><button (click)="playTrack(track.preview_url)">Play</button></td>
+                <td> 
+                    <button mat-button [matMenuTriggerFor]="menu">+</button>
+                    <mat-menu #menu="matMenu">
+                    <span *ngFor="let playlist of playlists?.items">
+                        <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
+                    </span>
+                    </mat-menu>  </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="artists">
+        <h3>Artists</h3>
+        <table class="table table-sm">
+            <tbody>
+                <tr>
+                <td colspan="2" *ngFor="let artist of artists.items; index as i">
+                    <div class="card" style="width: 17rem;" *ngIf="artist.images[0]">
+                        <img class="card-img-top small-pic" [src]="artist.images[0].url" alt="artist.name">
+                        <div class="card-body">
+                            <h5 class="card-title">{{artist.name}}</h5>
+                            <a [routerLink]="['/artists', artist.id]" class="btn btn-primary">Visit Artist</a>
+                        </div>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="albums">
+            <h3>Album</h3>
+            <table class="table table-sm">
+                <tbody>
+                    <tr>
+                    <td colspan="2" *ngFor="let album of albums.items; index as i">
+                        <div class="card" style="width: 17rem;" *ngIf="album.images[0] && i<5">
+                            <img class="card-img-top small-pic" [src]="album.images[0].url" alt="album.name">
+                            <div class="card-body">
+                                <h5 class="card-title">{{album.name}}</h5>
+                                <a [routerLink]="['/albums', album.id]" class="btn btn-primary">Visit Album</a>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</div>

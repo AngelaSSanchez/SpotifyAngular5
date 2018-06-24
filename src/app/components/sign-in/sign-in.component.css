@@ -1,0 +1,28 @@
+.box
+{
+    position:absolute;
+    left:46%;
+    top:70%;
+
+    margin-left:-10px; /* -1/2 width */
+    margin-top:-10px; /* -1/2 height */
+}
+
+.box-logo
+{
+    position:absolute;
+    Height:100%;
+    width: 100%;
+    background-image: url("../../../assets/images/Spotify-back.jpg");
+}
+
+.btn-lg {
+    font-size: 16px;
+    line-height: 1;
+    border-radius: 500px;
+    padding: 19px 56px 21px;
+}
+.btn-green {
+    color: #1db954;
+    background-color: #fff;
+}

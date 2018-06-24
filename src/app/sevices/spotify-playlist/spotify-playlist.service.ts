@@ -9,17 +9,18 @@ import { SpotifyProfileService } from '../spotify-profile/spotify-profile.servic
 import { Tracks } from '../../models/track';
 
 @Injectable()
-export class SpotifyPlaylistService extends SpotifyProfileService {
+export class SpotifyPlaylistService {
 
   userId: string;
+  public show = false;
+  audioElement = new Audio();
 
   constructor(public http: HttpClient) {
-    super(http);
     this.userId = localStorage.getItem('user');
   }
 
   public getPlaylists(): Observable<Playlists> {
-    return this.http.get(this.getBaseUrl().concat('/playlists')).pipe(map(resp => <Playlists>resp));
+    return this.http.get('https://api.spotify.com/v1/me/playlists').pipe(map(resp => <Playlists>resp));
   }
 
   public getPlaylist(userId, id): Observable<Playlist> {
@@ -50,8 +51,15 @@ export class SpotifyPlaylistService extends SpotifyProfileService {
     { uris: [trackUri]});
   }
 
-  public getUrl(profileId: string): string {
-    return 'https://api.spotify.com/v1/users/' + profileId + '/playlists/';
+  playTrack(src: string) {
+    this.show = !this.show;
+
+    this.audioElement.src = src;
+    if (this.show) {
+      this.audioElement.play();
+    } else {
+      this.audioElement.pause();
+    }
   }
 
 }

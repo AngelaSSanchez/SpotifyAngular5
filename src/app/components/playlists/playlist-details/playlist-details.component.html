@@ -1,23 +1,36 @@
 <app-header></app-header>
-  <h2>{{ playlist?.name | uppercase }} Details</h2>
-  <div>
-    <label>name:
-      {{playlist?.name}}
-    </label>
+<div class="container">
+  <div class="row">
+  <div class="col-3">
+    <img [src]="playlist?.images[0].url" class="img-thumbnail small-pic">
   </div>
+  <div class="col-6" >
+    <h2>{{ playlist?.name | uppercase }}</h2>
+  </div>
+</div>
+</div>
 
-  <div *ngIf="tracks">
-    <li *ngFor="let track of tracks.items" >
-      {{track.track.name}} 
-      <span *ngFor="let artist of  track.track.artists" >
-          <a [routerLink]="['/artists', artist.id]"> {{artist.name | replaceAmp}} </a>
-      </span>
-      <a [routerLink]="['/albums', track.track.album.id]">Album</a>
-      <button (click)="playTrack(track.track.preview_url)">Play</button>
-      <button mat-button [matMenuTriggerFor]="menu">V</button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="deleteTrack(track.track)">Delete from Playlist</button>
-      </mat-menu>   
-    </li>
-  </div>
+<table class="table table-hover table-sm" *ngIf="tracks">
+    <tbody>
+      <tr *ngFor="let track of tracks.items">
+        <td colspan="4">{{track.track.name}}</td>
+        <td colspan="2">
+          <span *ngFor="let artist of  track.track.artists" >
+            <a [routerLink]="['/artists', artist.id]"> {{artist.name | replaceAmp}}, </a>
+          </span>
+        </td>
+        <td colspan="2"><a [routerLink]="['/albums', track.track.album.id]">{{track.track.album.name}}</a></td>
+        <td colspan="2">{{track.track.duration_ms | date:'mm:ss'}}</td>
+        <td colspan="2"><button (click)="playTrack(track.track.preview_url)">Play</button></td>
+        <td> 
+          <button mat-button [matMenuTriggerFor]="menu">+</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="deleteTrack(track.track)">Delete from playlist</button>
+          </mat-menu>  
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+
   

@@ -9,11 +9,11 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { CallbackComponent } from './callback/callback.component';
+import { CallbackComponent } from './components/sign-in/callback/callback.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
-import { SignInComponent } from './sign-in/sign-in.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
 import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { PlaylistDetailsComponent } from './components/playlists/playlist-details/playlist-details.component';
 import { AlbumsComponent } from './components/albums/albums.component';

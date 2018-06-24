@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Album } from '../../models/albums';
 import { Subscription } from 'rxjs';
 import { SpotifyAlbumsService } from '../../sevices/spotify-album/spotify-albums.service';
@@ -17,8 +17,7 @@ export class AlbumsComponent implements OnInit {
   subscription: Subscription;
   id: string;
 
-  constructor(private router: Router,
-              private activatedRoute: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
               private spotifyAlbums: SpotifyAlbumsService) {
                 this.id = '';
                }
@@ -38,7 +37,6 @@ export class AlbumsComponent implements OnInit {
     this.subscription = this.spotifyAlbums.getAlbumById(this.id).subscribe(
       album => {
         this.album = album;
-        console.log('Album' + this.album);
       }
     );
   }

@@ -3,6 +3,7 @@ import { User } from '../../models/user';
 import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-profile.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-header',
@@ -14,23 +15,22 @@ export class HeaderComponent implements OnInit, OnChanges {
   userId: string;
   searchForm: FormGroup;
 
-  searchBy = ['All', 'Artist', 'Album', 'Song'];
+  searchBy = ['all', 'artist', 'album', 'track'];
 
   constructor(private spotifyService: SpotifyProfileService,
               private formBuilder: FormBuilder,
               private router: Router) {
     this.userId = localStorage.getItem('user');
-    this.createForm();
   }
 
   ngOnInit() {
-
+    this.createForm();
   }
 
   createForm() {
     this.searchForm = this.formBuilder.group({
       search: '',
-      searchBy: this.searchBy[1]
+      searchBy: this.searchBy[0]
     });
   }
 
@@ -49,8 +49,18 @@ export class HeaderComponent implements OnInit, OnChanges {
   onSubmit() {
     const formModel = this.searchForm.value;
     const searchChain  = formModel.search;
-    const searchByChain  = formModel.searchBy;
+    let searchByChain = '';
+    if (formModel.searchBy === 'all') {
+      for (let _i = 1; _i < this.searchBy.length; _i++) {
+        searchByChain += this.searchBy[_i];
+        if (_i !== this.searchBy.length - 1) {
+          searchByChain += ',';
+        }
+      }
+    } else {
+      searchByChain  = formModel.searchBy;
+    }
     this.rebuildForm();
-    this.router.navigate(['/results']);
+    this.router.navigate(['/results', {q: searchChain, type: searchByChain}]);
   }
 }

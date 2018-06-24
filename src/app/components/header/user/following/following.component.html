@@ -6,9 +6,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let artist of artists">
+      <tr *ngFor="let artist of artists.items">
         <td colspan="2">{{artist.name}}</td>
-        <td colspan="2"><button>Following</button>></td>
+        <td colspan="2"><button (click)="unfollowArtist(artist.id)">Unfollow</button></td>
       </tr>
     </tbody>
 </table>

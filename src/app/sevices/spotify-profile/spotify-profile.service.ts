@@ -13,9 +13,6 @@ export class SpotifyProfileService {
 
   private baseUrl = 'https://api.spotify.com/v1/me';
 
-  public show = false;
-  audioElement = new Audio();
-
   constructor(public http: HttpClient) { }
 
   public getUserProfile(): Observable<User> {
@@ -30,19 +27,14 @@ export class SpotifyProfileService {
     return this.baseUrl;
   }
 
+  public search(q: string, type: string): Observable<any> {
+    console.log('holi' + q + type);
+    return this.http.get('https://api.spotify.com/v1/search?q=' + q + '&type=' + type + '&limit=5')
+      .pipe(map(resp => resp));
+  }
   async getUser() {
     const user = await this.http.get<User>(this.baseUrl).toPromise();
     return user;
   }
 
-  playTrack(src: string) {
-    this.show = !this.show;
-
-    this.audioElement.src = src;
-    if (this.show) {
-      this.audioElement.play();
-    } else {
-      this.audioElement.pause();
-    }
-  }
 }

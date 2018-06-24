@@ -1,0 +1,8 @@
+.aling-left{
+    position:absolute;
+    left:65%;
+
+    margin-left:-10px; /* -1/2 width */
+    margin-top:-10px; /* -1/2 height */
+
+}

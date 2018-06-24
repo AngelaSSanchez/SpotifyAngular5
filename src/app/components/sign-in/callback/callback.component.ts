@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SpotifyProfileService } from '../sevices/spotify-profile/spotify-profile.service';
+import { SpotifyProfileService } from '../../../sevices/spotify-profile/spotify-profile.service';
 @Component({
   selector: 'app-callback',
   templateUrl: './callback.component.html',
@@ -26,7 +26,7 @@ export class CallbackComponent implements OnInit {
     this.token = this.getParameterByName('access_token');
     localStorage.setItem('token', this.token);
     this.getUser();
-    this.route.navigate(['/main']);
+    this.route.navigate(['/results']);
   }
 
   async getUser() {

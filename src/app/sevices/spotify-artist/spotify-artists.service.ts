@@ -32,6 +32,14 @@ export class SpotifyArtistsService extends SpotifyPlaylistService {
   }
 
   public followArtists(id: string) {
-    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=${id}', null).subscribe(resp => resp);
+    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=' + id, null).subscribe(resp => resp);
+  }
+
+  public checkFollowingArtist(id: string) {
+    return this.http.get('https://api.spotify.com/v1/me/following/contains?type=artist&ids=' + id);
+  }
+
+  public unfollowArtists(id: string) {
+    return this.http.delete('https://api.spotify.com/v1/me/following?type=artist&ids=' + id);
   }
 }

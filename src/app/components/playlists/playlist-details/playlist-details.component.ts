@@ -58,6 +58,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
     this.subscription = this.playlistService.getPlaylist(this.userId, id).subscribe(
       playlist => {
         this.playlist = playlist;
+        console.log(this.playlist);
       }
     );
 
@@ -68,7 +69,6 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
     this.subscription = this.playlistService.getPlaylistTracks(this.userId, id).subscribe(
       tracks => {
         this.tracks = tracks;
-        console.log(this.tracks);
      }
     );
     return this.tracks;

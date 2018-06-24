@@ -23,6 +23,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   album: Album;
   artist: Artist;
   playlists: Playlists;
+  following: boolean;
 
   public show: boolean;
   audioElement: any;
@@ -32,10 +33,11 @@ export class ArtistsComponent implements OnInit, OnDestroy {
               private artistService: SpotifyArtistsService) {
                 this.id = '';
                 this.show = false;
+                this.following = false;
+                this.audioElement = new Audio();
                }
 
   ngOnInit() {
-    this.audioElement = new Audio();
     this.subscription = this.activatedRoute.params.subscribe(
       (params) => {
         this.id = params['id'];
@@ -55,8 +57,23 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     this.subscription = this.artistService.getArtistById(this.id).subscribe(
       artist => {
         this.artist = artist;
+        this.following = this.getFollowingArtist();
       }
     );
+  }
+
+  getFollowingArtist(): boolean {
+    let follow = false;
+    this.artistService.checkFollowingArtist(this.id).subscribe(
+      following => {
+        const foll = following;
+        if (foll === 'true') {
+          follow = true;
+        }
+      }
+    );
+
+    return follow;
   }
 
   getArtistTopTracks() {

@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class SpotifyLoginService {
 
-  private scopes = 'user-read-private user-read-email user-follow-modify';
+  private scopes = 'user-read-private user-read-email user-follow-modify user-follow-read';
 
   constructor(public http: HttpClient) { }
 

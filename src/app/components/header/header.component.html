@@ -9,20 +9,20 @@
     </a>
     <app-playlists></app-playlists>
 
-    <form class="form-inline my-2 my-lg-0" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <form class="form-inline my-2 my-lg-0 aling-left" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-              <input class="form-control mr-sm-2" type="search" formControlName="search">
+              <input class="form-control mr-sm-2" type="search" formControlName="search" required>
           </div>
         <div class="form-group">
         <label class="center-block">Search by:
             <select class="form-control" formControlName="searchBy">
-            <option *ngFor="let type of searchBy" [value]="searchBy">{{type}}</option>
+            <option *ngFor="let type of searchBy" [ngValue]="type" [selected]="searchBy==type">{{type | titlecase }}</option>
             </select>
         </label>
         </div>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
         [disabled]="searchForm.pristine">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+             Search
         </button> 
     </form>
 </nav>

@@ -29,14 +29,14 @@ export class AlbumDetailsComponent implements OnInit {
     this.getPlaylists();
   }
 
-  getAlbumTracks(): Track[] {
+  getAlbumTracks(): Tracks {
     this.subscription = this.albumService.getAlbumTracks(this.album.id).subscribe(
         tracks => {
-          this.tracklist = tracks.items;
+          this.tracks = tracks;
       }
     );
 
-    return this.tracklist;
+    return this.tracks;
   }
 
   playTrack(url: string) {

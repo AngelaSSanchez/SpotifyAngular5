@@ -2,8 +2,16 @@
 <div mat-dialog-content>
   <p>New Playlist</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="data.playlistName">
+    <input matInput [(ngModel)]="data.playlistName" placeholder="Name" [errorStateMatcher]="matcher"
+    [formControl]="listFormControl">
+      <mat-error *ngIf="listFormControl.hasError('required')">
+        A name for a playlist is <strong>required</strong>
+      </mat-error>
   </mat-form-field>
+  <mat-form-field>
+      <input matInput [(ngModel)]="data.description" placeholder="Description">
+  </mat-form-field>
+  <input type="file" name="pic" accept="image/*" [(ngModel)]="data.image">
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>

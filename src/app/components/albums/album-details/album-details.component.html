@@ -1,40 +1,31 @@
 <div>
-  <div>
-      <h2><a [routerLink]="['/albums', album.id]">{{album.name}}</a></h2>
+
+  <div class="container">
+        <div class="row">
+        <div class="col-3">
+          <img [src]="album?.images[0].url" class="img-thumbnail small-pic">
+        </div>
+        <div class="col-6" >
+          <h2><a [routerLink]="['/albums', album.id]">{{album.name}}</a></h2>
+        </div>
+      </div>
   </div>
 
-  <div *ngIf="tracklist" >
-      <table mat-table [dataSource]="tracklist">
-          <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-              </ng-container>
+  <table class="table table-hover table-sm" *ngIf="tracks">
+      <tbody>
+        <tr *ngFor="let track of tracks.items">
+          <td colspan="4">{{track.name}}</td>
+          <td colspan="2">{{track.duration_ms | date:'mm:ss'}}</td>
+          <td colspan="2"><button (click)="playTrack(track.preview_url)">Play</button></td>
+          <td colspan="2"> <button mat-button [matMenuTriggerFor]="menu">+</button>
+            <mat-menu #menu="matMenu">
+              <span *ngFor="let playlist of playlists?.items">
+               <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
+              </span>
+            </mat-menu>  </td>
+        </tr>
+      </tbody>
+  </table>
 
-              <ng-container matColumnDef="preview_url">
-                <th mat-header-cell *matHeaderCellDef> Play </th>
-                <td mat-cell *matCellDef="let element"> <button (click)="playTrack(element.preview_url)">Play</button> </td>
-              </ng-container>
 
-              <ng-container matColumnDef="duration_ms">
-                <th mat-header-cell *matHeaderCellDef> Time </th>
-                <td mat-cell *matCellDef="let element"> {{element.duration_ms | date:'mm:ss'}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="add">
-                <th mat-header-cell *matHeaderCellDef> Time </th>
-                <td mat-cell *matCellDef="let element">
-                  <button mat-button [matMenuTriggerFor]="menu">+</button>
-                  <mat-menu #menu="matMenu">
-                    <span *ngFor="let playlist of playlists?.items">
-                     <button mat-menu-item (click)="addToPlaylist(element.uri, playlist.id)">{{playlist.name}}</button>
-                    </span>
-                  </mat-menu>  
-                </td> 
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-  </div>
 </div>
