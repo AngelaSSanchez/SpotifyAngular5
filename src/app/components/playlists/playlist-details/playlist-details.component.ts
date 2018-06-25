@@ -31,6 +31,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute) {
     this.show = false;
     this.playlistId = '';
+    this.audioElement = new Audio();
     this.userId = localStorage.getItem('user');
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
@@ -75,7 +76,14 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   }
 
   playTrack(src: string) {
-    this.playlistService.playTrack(src);
+    this.show = !this.show;
+
+    this.audioElement.src = src;
+    if (this.show) {
+      this.audioElement.play();
+    } else {
+      this.audioElement.pause();
+    }
   }
 
   deleteTrack(track: Track) {

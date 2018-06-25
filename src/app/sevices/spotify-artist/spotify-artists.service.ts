@@ -32,7 +32,7 @@ export class SpotifyArtistsService extends SpotifyPlaylistService {
   }
 
   public followArtists(id: string) {
-    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=' + id, null).subscribe(resp => resp);
+    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=' + id, null);
   }
 
   public checkFollowingArtist(id: string) {

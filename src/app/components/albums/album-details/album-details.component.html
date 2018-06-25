@@ -1,31 +1,31 @@
 <div>
 
-  <div class="container">
-        <div class="row">
-        <div class="col-3">
+<div class="row">
+  <div class="col-2">
+      <span *ngIf="album?.images[0]">
           <img [src]="album?.images[0].url" class="img-thumbnail small-pic">
-        </div>
-        <div class="col-6" >
-          <h2><a [routerLink]="['/albums', album.id]">{{album.name}}</a></h2>
-        </div>
-      </div>
+      </span>
   </div>
+  <div class="col-8" >
+    <h2><a [routerLink]="['/albums', album.id]">{{album.name}}</a></h2>
+  </div>
+</div>
 
-  <table class="table table-hover table-sm" *ngIf="tracks">
-      <tbody>
-        <tr *ngFor="let track of tracks.items">
-          <td colspan="4">{{track.name}}</td>
-          <td colspan="2">{{track.duration_ms | date:'mm:ss'}}</td>
-          <td colspan="2"><button (click)="playTrack(track.preview_url)">Play</button></td>
-          <td colspan="2"> <button mat-button [matMenuTriggerFor]="menu">+</button>
-            <mat-menu #menu="matMenu">
-              <span *ngFor="let playlist of playlists?.items">
-               <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
-              </span>
-            </mat-menu>  </td>
-        </tr>
-      </tbody>
-  </table>
+<table class="table table-hover table-sm" *ngIf="tracks">
+    <tbody>
+      <tr *ngFor="let track of tracks.items">
+        <td colspan="4">{{track.name}}</td>
+        <td colspan="2">{{track.duration_ms | date:'mm:ss'}}</td>
+        <td colspan="2"><button (click)="playTrack(track.preview_url)">Play</button></td>
+        <td colspan="2"> <button mat-button [matMenuTriggerFor]="menu">+</button>
+          <mat-menu #menu="matMenu">
+            <span *ngFor="let playlist of playlists?.items">
+              <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
+            </span>
+          </mat-menu>  </td>
+      </tr>
+    </tbody>
+</table>
 
 
 </div>

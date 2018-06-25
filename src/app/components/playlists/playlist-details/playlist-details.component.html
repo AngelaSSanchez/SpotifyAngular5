@@ -1,13 +1,15 @@
 <app-header></app-header>
-<div class="container">
-  <div class="row">
-  <div class="col-3">
-    <img [src]="playlist?.images[0].url" class="img-thumbnail small-pic">
+
+<div class="row">
+  <div class="col-2">
+    <span *ngIf="playlist?.images[0]">
+      <img [src]="playlist?.images[0].url" class="img-thumbnail small-pic">
+    </span>
   </div>
-  <div class="col-6" >
+  <div class="col-8" >
     <h2>{{ playlist?.name | uppercase }}</h2>
+    <p *ngIf="playlist?.description">{{playlist.description}}</p>
   </div>
-</div>
 </div>
 
 <table class="table table-hover table-sm" *ngIf="tracks">
@@ -21,7 +23,7 @@
         </td>
         <td colspan="2"><a [routerLink]="['/albums', track.track.album.id]">{{track.track.album.name}}</a></td>
         <td colspan="2">{{track.track.duration_ms | date:'mm:ss'}}</td>
-        <td colspan="2"><button (click)="playTrack(track.track.preview_url)">Play</button></td>
+        <td colspan="2"><button (click)="playTrack(track.track.preview_url)"><i class="fas fa-play"></i>Play</button></td>
         <td> 
           <button mat-button [matMenuTriggerFor]="menu">+</button>
           <mat-menu #menu="matMenu">

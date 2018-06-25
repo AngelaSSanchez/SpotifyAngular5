@@ -23,7 +23,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   album: Album;
   artist: Artist;
   playlists: Playlists;
-  following: boolean;
+  following = false;
 
   public show: boolean;
   audioElement: any;
@@ -33,7 +33,6 @@ export class ArtistsComponent implements OnInit, OnDestroy {
               private artistService: SpotifyArtistsService) {
                 this.id = '';
                 this.show = false;
-                this.following = false;
                 this.audioElement = new Audio();
                }
 
@@ -53,27 +52,14 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getArtistById() {
+  getArtistById(): Artist {
     this.subscription = this.artistService.getArtistById(this.id).subscribe(
       artist => {
         this.artist = artist;
-        this.following = this.getFollowingArtist();
-      }
-    );
-  }
-
-  getFollowingArtist(): boolean {
-    let follow = false;
-    this.artistService.checkFollowingArtist(this.id).subscribe(
-      following => {
-        const foll = following;
-        if (foll === 'true') {
-          follow = true;
-        }
       }
     );
 
-    return follow;
+    return this.artist;
   }
 
   getArtistTopTracks() {
@@ -95,12 +81,14 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   }
 
   followArtist() {
-    this.subscription = this.artistService.followArtists(this.id);
+    this.subscription = this.artistService.followArtists(this.id).subscribe(
+      followArtist => {
+        this.artist = this.getArtistById();
+      }
+    );
   }
 
   playTrack(src: string) {
-    this.artistService.playTrack(src);
-    /**
     this.show = !this.show;
 
     this.audioElement.src = src;
@@ -109,7 +97,6 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     } else {
       this.audioElement.pause();
     }
-    */
   }
 
   getPlaylists(): Playlists {

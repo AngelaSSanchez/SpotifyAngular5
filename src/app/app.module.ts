@@ -29,6 +29,7 @@ import { UserRoutingModule } from './components/header/user-routing/user-routing
 import { ReplaceAmpPipe } from './replace-amp.pipe';
 import { SpotifyPlaylistService } from './sevices/spotify-playlist/spotify-playlist.service';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
+import { FollowingDirective } from './directives/following.directive';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { SearchResultsComponent } from './components/search-results/search-resul
     FollowingComponent,
     ReplaceAmpPipe,
     SearchResultsComponent,
+    FollowingDirective,
   ],
   imports: [
     BrowserModule,

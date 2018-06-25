@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">    
 
-    <h2>
+    <h1>
         <a class="navbar-brand" routerLink="/user">{{userId}}</a>
-    </h2>
+    </h1>
     
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Playlists
@@ -11,7 +11,7 @@
 
     <form class="form-inline my-2 my-lg-0 aling-left" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-              <input class="form-control mr-sm-2" type="search" formControlName="search" required>
+              <input class="form-control mr-sm-2" type="search" formControlName="search">
           </div>
         <div class="form-group">
         <label class="center-block">Search by:
@@ -21,7 +21,7 @@
         </label>
         </div>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
-        [disabled]="searchForm.pristine">
+            [disabled]="searchForm.pristine && !searchForm.status">
              Search
         </button> 
     </form>

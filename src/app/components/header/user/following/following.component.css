@@ -1,0 +1,10 @@
+.btn-lg {
+    font-size: 16px;
+    line-height: 1;
+    border-radius: 500px;
+    padding: 19px 56px 21px;
+}
+.btn-green {
+    color: #fff;
+    background-color: #1db954;
+}

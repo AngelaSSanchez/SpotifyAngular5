@@ -19,10 +19,15 @@ export class AlbumDetailsComponent implements OnInit {
   tracks: Tracks;
   tracklist: Track[];
   playlists: Playlists;
+  audioElement: any;
+  show: boolean;
 
   displayedColumns = ['name', 'preview_url', 'duration_ms', 'add'];
 
-  constructor(private albumService: SpotifyAlbumsService) { }
+  constructor(private albumService: SpotifyAlbumsService) {
+    this.audioElement = new Audio();
+    this.show = false;
+  }
 
   ngOnInit() {
     this.getAlbumTracks();
@@ -40,7 +45,14 @@ export class AlbumDetailsComponent implements OnInit {
   }
 
   playTrack(url: string) {
-    this.albumService.playTrack(url);
+    this.show = !this.show;
+
+    this.audioElement.src = url;
+    if (this.show) {
+      this.audioElement.play();
+    } else {
+      this.audioElement.pause();
+    }
   }
 
   getPlaylists(): Playlists {

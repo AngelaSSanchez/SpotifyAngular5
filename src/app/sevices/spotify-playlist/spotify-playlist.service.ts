@@ -13,7 +13,7 @@ export class SpotifyPlaylistService {
 
   userId: string;
   public show = false;
-  audioElement = new Audio();
+  // audioElement = new Audio();
 
   constructor(public http: HttpClient) {
     this.userId = localStorage.getItem('user');
@@ -29,12 +29,12 @@ export class SpotifyPlaylistService {
 
   public getPlaylistTracks(userId: string, id: string): Observable<Tracks> {
     return this.http.get('https://api.spotify.com/v1/users/' + userId + '/playlists/' + id + '/tracks')
-    .pipe(map(resp => <Tracks>resp));
+      .pipe(map(resp => <Tracks>resp));
   }
 
-  public createPlaylist(playlistName: string, userId: string) {
+  public createPlaylist(playlistName: string, playlistDesc: string, userId: string) {
     console.log('Service' + playlistName);
-    return this.http.post('https://api.spotify.com/v1/users/' + userId + '/playlists', {name: playlistName});
+    return this.http.post('https://api.spotify.com/v1/users/' + userId + '/playlists', {name: playlistName, description: playlistDesc});
   }
 
   public deleteTrackFromPlaylist(playlistId: string, userId: string, trackUri: string) {
@@ -49,17 +49,6 @@ export class SpotifyPlaylistService {
   public addTrackToPlaylist(trackUri: string, playlistId: string) {
     return this.http.post('https://api.spotify.com/v1/users/' + this.userId + '/playlists/' + playlistId + '/tracks',
     { uris: [trackUri]});
-  }
-
-  playTrack(src: string) {
-    this.show = !this.show;
-
-    this.audioElement.src = src;
-    if (this.show) {
-      this.audioElement.play();
-    } else {
-      this.audioElement.pause();
-    }
   }
 
 }

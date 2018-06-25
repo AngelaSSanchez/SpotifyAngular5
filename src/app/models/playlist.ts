@@ -7,6 +7,7 @@ export interface Playlists {
 export interface Playlist {
     id: string;
     name: string;
+    description: string;
     images: Images[];
     tracks: TrackLink;
 }

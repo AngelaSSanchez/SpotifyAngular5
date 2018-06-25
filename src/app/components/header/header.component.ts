@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges} from '@angular/core';
 import { User } from '../../models/user';
 import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-profile.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forEach } from '@angular/router/src/utils/collection';
 
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   createForm() {
     this.searchForm = this.formBuilder.group({
-      search: '',
+      search: ['', Validators.required],
       searchBy: this.searchBy[0]
     });
   }

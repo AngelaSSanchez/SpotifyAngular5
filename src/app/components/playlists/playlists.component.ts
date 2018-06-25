@@ -16,6 +16,8 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   playlists: Playlists;
   selectedPlaylist: Playlist;
   playlistName: string;
+  playlistDesc: string;
+  error: string;
 
   private subscription: ISubscription;
 
@@ -51,19 +53,22 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   openDialog(): void {
     const dialogRef = this.dialog.open(CreatePlaylistComponent, {
       width: '250px',
-      data: { playlistName: this.playlistName }
+      data: { playlistName: this.playlistName, playlistDesc: this.playlistDesc }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.playlistName = result;
+      console.log(result);
+      this.playlistName = result.playlistName;
+      this.playlistDesc = result.playlistDesc;
       if (this.playlistName != null) {
-        this.createPlaylist(this.playlistName);
+        this.createPlaylist(this.playlistName, this.playlistDesc);
       }
     });
   }
 
-  createPlaylist(playlistName: string) {
-    this.playlistService.createPlaylist(playlistName, this.userId).subscribe(
+  createPlaylist(playlistName: string, playlistDesc: string) {
+    console.log(this.playlistDesc);
+    this.playlistService.createPlaylist(playlistName, playlistDesc, this.userId).subscribe(
       playlists => {
         this.playlists = this.getPlaylists();
       }
