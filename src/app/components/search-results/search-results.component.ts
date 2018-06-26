@@ -7,6 +7,7 @@ import { Artists } from '../../models/artists';
 import { Albums } from '../../models/albums';
 import { Tracks } from '../../models/track';
 import { SpotifyPlaylistService } from '../../sevices/spotify-playlist/spotify-playlist.service';
+import { Playlists } from '../../models/playlist';
 
 @Component({
   selector: 'app-search-results',
@@ -21,6 +22,7 @@ export class SearchResultsComponent implements OnInit {
   artists: Artists;
   albums: Albums;
   tracks: Tracks;
+  playlists: Playlists;
 
   subscription: Subscription;
 
@@ -61,6 +63,16 @@ export class SearchResultsComponent implements OnInit {
         console.log(this.object);
       }
     );
+  }
+
+  getPlaylists(): Playlists {
+    this.subscription = this.playlistService.getPlaylists().subscribe(
+      playlists => {
+         this.playlists = playlists;
+      }
+    );
+
+    return this.playlists;
   }
 
   addToPlaylist(trackUri: string, playlistId: string) {
