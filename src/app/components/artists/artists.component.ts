@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { Track, Tracks } from '../../models/track';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subscription, Observable } from 'rxjs';
+import { Tracks } from '../../models/track';
 import { Album, Albums } from '../../models/albums';
 import { SpotifyArtistsService } from '../../sevices/spotify-artist/spotify-artists.service';
 import { Artist } from '../../models/artists';
 import { Playlists } from '../../models/playlist';
+import { SpotifyFollowService } from '../../sevices/spotify-follow/spotify-follow.service';
 
 @Component({
   selector: 'app-artists',
@@ -23,23 +23,22 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   album: Album;
   artist: Artist;
   playlists: Playlists;
-  following = false;
 
   public show: boolean;
   audioElement: any;
 
-  constructor(private router: Router,
-              private activatedRoute: ActivatedRoute,
-              private artistService: SpotifyArtistsService) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private artistService: SpotifyArtistsService,
+              private el: ElementRef) {
                 this.id = '';
                 this.show = false;
                 this.audioElement = new Audio();
                }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.params.subscribe(
-      (params) => {
-        this.id = params['id'];
+    this.subscription = this.activatedRoute.paramMap.subscribe(
+      (params: ParamMap) => {
+        this.id = params.get('id');
       }
     );
     this.getArtistById();
@@ -66,7 +65,6 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     this.subscription = this.artistService.getArtistTopTracks(this.id).subscribe(
         tracks => {
           this.tracks = tracks['tracks'];
-          console.log('TopTracks' + this.tracks);
       }
     );
   }
@@ -75,15 +73,6 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     this.subscription = this.artistService.getArtistAlbums(this.id).subscribe(
         albums => {
           this.albums = albums;
-          console.log('Albums' + this.albums);
-      }
-    );
-  }
-
-  followArtist() {
-    this.subscription = this.artistService.followArtists(this.id).subscribe(
-      followArtist => {
-        this.artist = this.getArtistById();
       }
     );
   }

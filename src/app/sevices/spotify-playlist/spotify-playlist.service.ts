@@ -13,32 +13,34 @@ export class SpotifyPlaylistService {
 
   userId: string;
   public show = false;
-  // audioElement = new Audio();
+  baseUrl: string;
 
   constructor(public http: HttpClient) {
     this.userId = localStorage.getItem('user');
+    this.baseUrl = ('https://api.spotify.com/v1/users/').concat(this.userId).concat('/playlists');
   }
 
   public getPlaylists(): Observable<Playlists> {
-    return this.http.get('https://api.spotify.com/v1/me/playlists').pipe(map(resp => <Playlists>resp));
+    return this.http.get<Playlists>(this.baseUrl);
+    // .pipe(map(resp => <Playlists>resp));
   }
 
-  public getPlaylist(userId, id): Observable<Playlist> {
-    return this.http.get('https://api.spotify.com/v1/users/' + userId + '/playlists/' + id).pipe(map(resp => <Playlist>resp));
+  public getPlaylist(playlistId: string): Observable<Playlist> {
+    return this.http.get<Playlist>(this.baseUrl.concat('/').concat(playlistId))
+      .pipe(map(resp => <Playlist>resp));
   }
 
-  public getPlaylistTracks(userId: string, id: string): Observable<Tracks> {
-    return this.http.get('https://api.spotify.com/v1/users/' + userId + '/playlists/' + id + '/tracks')
+  public getPlaylistTracks(playlistId: string): Observable<Tracks> {
+    return this.http.get<Tracks>(this.baseUrl.concat('/').concat(playlistId).concat('/tracks'))
       .pipe(map(resp => <Tracks>resp));
   }
 
   public createPlaylist(playlistName: string, playlistDesc: string, userId: string) {
-    console.log('Service' + playlistName);
-    return this.http.post('https://api.spotify.com/v1/users/' + userId + '/playlists', {name: playlistName, description: playlistDesc});
+    return this.http.post(this.baseUrl, {name: playlistName, description: playlistDesc});
   }
 
   public deleteTrackFromPlaylist(playlistId: string, userId: string, trackUri: string) {
-    return this.http.request('DELETE', 'https://api.spotify.com/v1/users/' + userId + '/playlists/' + playlistId + '/tracks',
+    return this.http.request('DELETE', this.baseUrl.concat('/').concat(playlistId).concat('/tracks'),
      {
       body: {
         tracks: [{uri: trackUri}]
@@ -47,8 +49,13 @@ export class SpotifyPlaylistService {
   }
 
   public addTrackToPlaylist(trackUri: string, playlistId: string) {
-    return this.http.post('https://api.spotify.com/v1/users/' + this.userId + '/playlists/' + playlistId + '/tracks',
+    return this.http.post(this.baseUrl.concat('/').concat(playlistId).concat('/tracks'),
     { uris: [trackUri]});
+  }
+
+  public search(q: string, type: string): Observable<any> {
+    return this.http.get('https://api.spotify.com/v1/search?q=' + q + '&type=' + type + '&limit=5')
+      .pipe(map(resp => resp));
   }
 
 }

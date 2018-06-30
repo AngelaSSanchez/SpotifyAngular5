@@ -17,10 +17,11 @@ export class SpotifyAlbumsService extends SpotifyPlaylistService {
    }
 
   public getAlbumById(id: string): Observable<Album> {
-    return this.http.get(this.albumUrl.concat(id)).pipe(map(resp => <Album>resp));
+    return this.http.get<Album>(this.albumUrl.concat(id)).pipe(map(resp => <Album>resp));
   }
 
   public getAlbumTracks(id: string): Observable<Tracks> {
-    return this.http.get(this.albumUrl.concat(id).concat('/tracks')).pipe(map(resp => <Tracks>resp));
+    return this.http.get<Tracks>(this.albumUrl.concat(id).concat('/tracks'));
+    // .pipe(map(resp => <Tracks>resp));
   }
 }

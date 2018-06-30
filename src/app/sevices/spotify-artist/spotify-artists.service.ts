@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tracks } from '../../models/track';
 import { Albums } from '../../models/albums';
-import { Artist } from '../../models/artists';
+import { Artist, Artists } from '../../models/artists';
 import { SpotifyPlaylistService } from '../spotify-playlist/spotify-playlist.service';
 
 @Injectable()
@@ -19,27 +19,17 @@ export class SpotifyArtistsService extends SpotifyPlaylistService {
     this.userId = localStorage.getItem('user');
   }
 
-  public getArtistTopTracks(id: string): Observable<Tracks> {
-    return this.http.get(this.artistUrl.concat(id).concat('/top-tracks?country=ES')).pipe(map(resp => <Tracks>resp));
+  public getArtistTopTracks(artistId: string): Observable<Tracks> {
+    return this.http.get<Tracks>(this.artistUrl.concat(artistId).concat('/top-tracks?country=ES'));
+    //  .pipe(map(resp => <Tracks>resp['tracks']));
   }
 
-  public getArtistAlbums(id: string): Observable<Albums> {
-    return this.http.get(this.artistUrl.concat(id).concat('/albums')).pipe(map(resp => <Albums>resp));
+  public getArtistAlbums(artistId: string): Observable<Albums> {
+    return this.http.get<Albums>(this.artistUrl.concat(artistId).concat('/albums'));
+    // .pipe(map(resp => <Albums>resp));
   }
 
-  public getArtistById(id: string): Observable<Artist> {
-    return this.http.get(this.artistUrl.concat(id)).pipe(map(resp => <Artist>resp));
-  }
-
-  public followArtists(id: string) {
-    return this.http.put('https://api.spotify.com/v1/me/following?type=artist&ids=' + id, null);
-  }
-
-  public checkFollowingArtist(id: string) {
-    return this.http.get('https://api.spotify.com/v1/me/following/contains?type=artist&ids=' + id);
-  }
-
-  public unfollowArtists(id: string) {
-    return this.http.delete('https://api.spotify.com/v1/me/following?type=artist&ids=' + id);
+  public getArtistById(artistId: string): Observable<Artist> {
+    return this.http.get<Artist>(this.artistUrl.concat(artistId)).pipe(map(resp => <Artist>resp));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Album } from '../../../models/albums';
 import { Subscription } from 'rxjs';
 import { Tracks, Track } from '../../../models/track';
@@ -11,13 +11,12 @@ import { Playlists } from '../../../models/playlist';
   styleUrls: ['./album-details.component.css'],
   providers: [ SpotifyAlbumsService ]
 })
-export class AlbumDetailsComponent implements OnInit {
+export class AlbumDetailsComponent implements OnInit, OnDestroy {
 
   @Input() album: Album;
 
   subscription: Subscription;
   tracks: Tracks;
-  tracklist: Track[];
   playlists: Playlists;
   audioElement: any;
   show: boolean;
@@ -67,6 +66,10 @@ export class AlbumDetailsComponent implements OnInit {
 
   addToPlaylist(trackUri: string, playlistId: string) {
     this.subscription = this.albumService.addTrackToPlaylist(trackUri, playlistId).subscribe();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

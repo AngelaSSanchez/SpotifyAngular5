@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, OnChanges, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, OnDestroy, EventEmitter } from '@angular/core';
 import { SpotifyPlaylistService } from '../../../sevices/spotify-playlist/spotify-playlist.service';
 import { Playlist, TrackLink } from '../../../models/playlist';
 import { Track, Tracks } from '../../../models/track';
 import { Subscription } from 'rxjs';
 import { User } from '../../../models/user';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-playlist',
@@ -39,10 +39,9 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.audioElement = new Audio();
-    this.subscription = this.activatedRoute.params.subscribe(
-      params => {
-        this.playlistId = params['id'];
+    this.subscription = this.activatedRoute.paramMap.subscribe(
+      (params: ParamMap) => {
+        this.playlistId = params.get('id');
       }
     );
     if (this.playlistId !== '') {
@@ -56,7 +55,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   }
 
   getPlaylist(id: string): Playlist {
-    this.subscription = this.playlistService.getPlaylist(this.userId, id).subscribe(
+    this.subscription = this.playlistService.getPlaylist(id).subscribe(
       playlist => {
         this.playlist = playlist;
         console.log(this.playlist);
@@ -67,7 +66,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   }
 
   getTracks(id: string): Tracks {
-    this.subscription = this.playlistService.getPlaylistTracks(this.userId, id).subscribe(
+    this.subscription = this.playlistService.getPlaylistTracks(id).subscribe(
       tracks => {
         this.tracks = tracks;
      }

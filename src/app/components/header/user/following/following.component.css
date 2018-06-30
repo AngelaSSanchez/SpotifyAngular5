@@ -8,3 +8,9 @@
     color: #fff;
     background-color: #1db954;
 }
+
+.round-pic {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}

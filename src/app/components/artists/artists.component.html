@@ -1,36 +1,37 @@
 <app-header></app-header>
-
-<div class="row">
-  <div class="col-2">
-    <span *ngIf="artist?.images[0]">
-      <img [src]="artist?.images[0].url" class="img-thumbnail small-pic">
-    </span>
+<div *ngIf="artist">
+  <div class="row">
+    <div class="col-2">
+      <span *ngIf="artist?.images[0]">
+        <img [src]="artist?.images[0].url" class="img-thumbnail small-pic">
+      </span>
+    </div>
+    <div class="col-8" >
+      <h2>{{ artist?.name | uppercase }}</h2>
+      <button class = "btn-green btn-lg" appFollowing [id]="artist.id" #val>{{val.value}}</button>
+    </div>
   </div>
-  <div class="col-8" >
-    <h2>{{ artist?.name | uppercase }}</h2>
-    <button (click)="followArtist()" class = "btn-green btn-lg" appFollowing id="{{artist.id}}" #val>{{val.value}}</button>
-  </div>
-</div>
 
-<h3>Top 10 Songs</h3>
-<table class="table table-hover table-sm" *ngIf="tracks">
-    <tbody>
-      <tr *ngFor="let track of tracks">
-        <td colspan="4">{{track.name}}</td>
-        <td colspan="2"><a [routerLink]="['/albums', track.album.id]">{{track.duration_ms | date:'mm:ss'}}</a></td>
-        <td colspan="2"><button  (click)="playTrack(track.preview_url)">Play</button></td>
-        <td> <button mat-button [matMenuTriggerFor]="menu">+</button>
-          <mat-menu #menu="matMenu">
-            <span *ngFor="let playlist of playlists?.items">
-             <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
-            </span>
-          </mat-menu>  </td>
-      </tr>
-    </tbody>
-</table>
-<hr>
-<h3>Albums</h3>
-<div *ngIf="albums">
-  <app-album-details *ngFor="let album of albums.items" [album]="album">
-  </app-album-details>
+  <h3>Top 10 Songs</h3>
+  <table class="table table-hover table-sm" *ngIf="tracks">
+      <tbody>
+        <tr *ngFor="let track of tracks">
+          <td colspan="4">{{track.name}}</td>
+          <td colspan="2">{{track.duration_ms | date:'mm:ss'}}</td>
+          <td colspan="2"><button  (click)="playTrack(track.preview_url)">Play</button></td>
+          <td colspan="2"> <button mat-button [matMenuTriggerFor]="menu">+</button>
+            <mat-menu #menu="matMenu">
+              <span *ngFor="let playlist of playlists?.items">
+              <button mat-menu-item (click)="addToPlaylist(track.uri, playlist.id)">{{playlist.name}}</button>
+              </span>
+            </mat-menu>  </td>
+        </tr>
+      </tbody>
+  </table>
+  <hr>
+  <h3>Albums</h3>
+  <div *ngIf="albums">
+    <app-album-details *ngFor="let album of albums.items" [album]="album">
+    </app-album-details>
+  </div>
 </div>

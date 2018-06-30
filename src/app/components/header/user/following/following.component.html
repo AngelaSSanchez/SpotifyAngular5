@@ -1,13 +1,14 @@
 <table class="table table-hover" *ngIf="artists">
     <thead>
       <tr>
-        <th scope="col">Artist</th>
+        <th>Artist</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let artist of artists.items">
-        <td colspan="2">{{artist.name}}</td>
-        <td colspan="2"><button (click)="unfollowArtist(artist.id)">Unfollow</button></td>
+        <td colspan="1" *ngIf="artist.images[0]"><img [src]="artist.images[0].url" class="round-pic"></td>
+        <td colspan="2"><h2><a [routerLink]="['/artists', artist.id]">{{artist.name}}</a></h2></td>
+        <td colspan="2"><button (click)="unfollowArtist(artist.id)" class="btn-lg btn-green">Unfollow</button></td>
       </tr>
     </tbody>
 </table>

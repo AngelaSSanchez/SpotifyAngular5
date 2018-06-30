@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-profile.service';
+import { Subscription } from 'rxjs';
 import { Artists } from '../../models/artists';
 import { Albums } from '../../models/albums';
 import { Tracks } from '../../models/track';
@@ -14,7 +12,7 @@ import { Playlists } from '../../models/playlist';
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.css']
 })
-export class SearchResultsComponent implements OnInit {
+export class SearchResultsComponent implements OnInit, OnDestroy {
 
   q: string;
   type: string;
@@ -23,32 +21,37 @@ export class SearchResultsComponent implements OnInit {
   albums: Albums;
   tracks: Tracks;
   playlists: Playlists;
+  show: boolean;
+  audioElement: any;
 
   subscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-              private profileService: SpotifyProfileService,
               private playlistService: SpotifyPlaylistService) {
         this.router.routeReuseStrategy.shouldReuseRoute = function() {
           return false;
         };
+        this.show = false;
+        this.audioElement = new Audio();
   }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.params.subscribe(
-      params => {
-        this.q = params['q'];
-        this.type = params['type'];
+    this.subscription = this.activatedRoute.paramMap.subscribe(
+      (params: ParamMap) => {
+        this.q = params.get('q');
+        this.type = params.get('type');
       }
     );
+
     if (this.q != null && this.type != null) {
       this.search();
+      this.getPlaylists();
     }
   }
 
   search() {
-    this.subscription = this.profileService.search(this.q, this.type).subscribe(
+    this.subscription = this.playlistService.search(this.q, this.type).subscribe(
       object => {
         this.object = object;
         if (object['artists']) {
@@ -77,5 +80,20 @@ export class SearchResultsComponent implements OnInit {
 
   addToPlaylist(trackUri: string, playlistId: string) {
     this.subscription = this.playlistService.addTrackToPlaylist(trackUri, playlistId).subscribe();
+  }
+
+  playTrack(src: string) {
+    this.show = !this.show;
+
+    this.audioElement.src = src;
+    if (this.show) {
+      this.audioElement.play();
+    } else {
+      this.audioElement.pause();
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

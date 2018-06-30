@@ -26,10 +26,11 @@ import { SpotifyProfileService } from './sevices/spotify-profile/spotify-profile
 import { UserComponent } from './components/header/user/user.component';
 import { FollowingComponent } from './components/header/user/following/following.component';
 import { UserRoutingModule } from './components/header/user-routing/user-routing.module';
-import { ReplaceAmpPipe } from './replace-amp.pipe';
+import { ReplaceAmpPipe } from './pipes/replace-amp.pipe';
 import { SpotifyPlaylistService } from './sevices/spotify-playlist/spotify-playlist.service';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { FollowingDirective } from './directives/following.directive';
+import { SpotifyFollowService } from './sevices/spotify-follow/spotify-follow.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { FollowingDirective } from './directives/following.directive';
     SpotifyLoginService,
     SpotifyProfileService,
     SpotifyPlaylistService,
+    SpotifyFollowService,
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy

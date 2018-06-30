@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Album } from '../../models/albums';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { SpotifyAlbumsService } from '../../sevices/spotify-album/spotify-albums.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-albums',
@@ -12,7 +13,7 @@ import { SpotifyAlbumsService } from '../../sevices/spotify-album/spotify-albums
 })
 export class AlbumsComponent implements OnInit {
 
-  album: Album;
+  album$: Observable<Album>;
 
   subscription: Subscription;
   id: string;
@@ -23,22 +24,9 @@ export class AlbumsComponent implements OnInit {
                }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.params.subscribe(
-      (params) => {
-        this.id = params['id'];
-      }
-    );
-    if (this.id !== '') {
-      this.getAlbumById();
-    }
-  }
-
-  getAlbumById () {
-    this.subscription = this.spotifyAlbums.getAlbumById(this.id).subscribe(
-      album => {
-        this.album = album;
-      }
+    this.album$ = this.activatedRoute.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+        this.spotifyAlbums.getAlbumById(params.get('id')))
     );
   }
-
 }

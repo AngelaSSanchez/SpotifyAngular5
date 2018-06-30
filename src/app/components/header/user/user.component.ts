@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SpotifyProfileService } from '../../../sevices/spotify-profile/spotify-profile.service';
 import { Subscription } from 'rxjs';
 import { User } from '../../../models/user';
@@ -8,14 +8,12 @@ import { User } from '../../../models/user';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
 
-  userId: string;
   subscription: Subscription;
   user: User;
 
   constructor(private userService: SpotifyProfileService) {
-    this.userId = localStorage.getItem('user');
   }
 
   ngOnInit() {
@@ -26,4 +24,7 @@ export class UserComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

@@ -18,7 +18,7 @@
                 </td>
                 <td colspan="2"><a [routerLink]="['/albums', track.album.id]">{{track.album.name}}</a></td>
                 <td colspan="2">{{track.duration_ms | date:'mm:ss'}}</td>
-                <td colspan="2"><button (click)="playTrack(track.preview_url)">Play</button></td>
+                <td colspan="2"><button (click)="playTrack(track.preview_url)" #playButton>Play</button></td>
                 <td> 
                     <button mat-button [matMenuTriggerFor]="menu">+</button>
                     <mat-menu #menu="matMenu">

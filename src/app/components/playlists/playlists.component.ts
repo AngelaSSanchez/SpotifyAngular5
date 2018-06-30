@@ -1,7 +1,7 @@
-import { Component, OnInit, OnChanges, OnDestroy, Inject} from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { SubscriptionLike as ISubscription } from 'rxjs';
-import { Playlist, Playlists, TrackLink } from '../../models/playlist';
+import { Playlist, Playlists } from '../../models/playlist';
 import { CreatePlaylistComponent } from './create-playlist/create-playlist.component';
 import { SpotifyPlaylistService } from '../../sevices/spotify-playlist/spotify-playlist.service';
 
@@ -44,10 +44,6 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     );
 
     return this.playlists;
-  }
-
-  onSelect(playlist: Playlist) {
-    this.selectedPlaylist = playlist;
   }
 
   openDialog(): void {

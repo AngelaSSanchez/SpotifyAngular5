@@ -1,9 +1,6 @@
 import { Component, OnInit, OnChanges} from '@angular/core';
-import { User } from '../../models/user';
-import { SpotifyProfileService } from '../../sevices/spotify-profile/spotify-profile.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-header',
@@ -17,8 +14,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   searchBy = ['all', 'artist', 'album', 'track'];
 
-  constructor(private spotifyService: SpotifyProfileService,
-              private formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private router: Router) {
     this.userId = localStorage.getItem('user');
   }

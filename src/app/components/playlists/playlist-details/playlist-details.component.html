@@ -1,5 +1,4 @@
 <app-header></app-header>
-
 <div class="row">
   <div class="col-2">
     <span *ngIf="playlist?.images[0]">
@@ -18,12 +17,12 @@
         <td colspan="4">{{track.track.name}}</td>
         <td colspan="2">
           <span *ngFor="let artist of  track.track.artists" >
-            <a [routerLink]="['/artists', artist.id]"> {{artist.name | replaceAmp}}, </a>
+            <a [routerLink]="['/artists', artist.id]"> {{artist.name | replaceAmp: 'y'}}, </a>
           </span>
         </td>
         <td colspan="2"><a [routerLink]="['/albums', track.track.album.id]">{{track.track.album.name}}</a></td>
         <td colspan="2">{{track.track.duration_ms | date:'mm:ss'}}</td>
-        <td colspan="2"><button (click)="playTrack(track.track.preview_url)"><i class="fas fa-play"></i>Play</button></td>
+        <td colspan="2"><button (click)="playTrack(track.track.preview_url)">Play</button></td>
         <td> 
           <button mat-button [matMenuTriggerFor]="menu">+</button>
           <mat-menu #menu="matMenu">
