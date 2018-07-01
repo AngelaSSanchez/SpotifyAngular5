@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Album } from '../../models/albums';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SpotifyAlbumsService } from '../../sevices/spotify-album/spotify-albums.service';
 import { switchMap } from 'rxjs/operators';
 
@@ -15,12 +15,8 @@ export class AlbumsComponent implements OnInit {
 
   album$: Observable<Album>;
 
-  subscription: Subscription;
-  id: string;
-
   constructor(private activatedRoute: ActivatedRoute,
               private spotifyAlbums: SpotifyAlbumsService) {
-                this.id = '';
                }
 
   ngOnInit() {

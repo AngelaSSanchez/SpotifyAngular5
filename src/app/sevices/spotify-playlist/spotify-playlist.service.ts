@@ -5,14 +5,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Playlist, Playlists } from '../../models/playlist';
-import { SpotifyProfileService } from '../spotify-profile/spotify-profile.service';
 import { Tracks } from '../../models/track';
 
 @Injectable()
 export class SpotifyPlaylistService {
 
   userId: string;
-  public show = false;
   baseUrl: string;
 
   constructor(public http: HttpClient) {
@@ -22,7 +20,6 @@ export class SpotifyPlaylistService {
 
   public getPlaylists(): Observable<Playlists> {
     return this.http.get<Playlists>(this.baseUrl);
-    // .pipe(map(resp => <Playlists>resp));
   }
 
   public getPlaylist(playlistId: string): Observable<Playlist> {
@@ -35,11 +32,11 @@ export class SpotifyPlaylistService {
       .pipe(map(resp => <Tracks>resp));
   }
 
-  public createPlaylist(playlistName: string, playlistDesc: string, userId: string) {
+  public createPlaylist(playlistName: string, playlistDesc: string) {
     return this.http.post(this.baseUrl, {name: playlistName, description: playlistDesc});
   }
 
-  public deleteTrackFromPlaylist(playlistId: string, userId: string, trackUri: string) {
+  public deleteTrackFromPlaylist(playlistId: string, trackUri: string) {
     return this.http.request('DELETE', this.baseUrl.concat('/').concat(playlistId).concat('/tracks'),
      {
       body: {

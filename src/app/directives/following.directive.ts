@@ -45,5 +45,4 @@ export class FollowingDirective implements OnChanges, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }

@@ -86,7 +86,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
   }
 
   deleteTrack(track: Track) {
-    this.playlistService.deleteTrackFromPlaylist(this.playlistId, this.userId, track.uri)
+    this.playlistService.deleteTrackFromPlaylist(this.playlistId, track.uri)
     .subscribe(
       tracks => {
         this.tracks = this.getTracks(this.playlistId);

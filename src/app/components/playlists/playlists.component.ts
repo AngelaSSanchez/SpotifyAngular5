@@ -12,12 +12,9 @@ import { SpotifyPlaylistService } from '../../sevices/spotify-playlist/spotify-p
 })
 export class PlaylistsComponent implements OnInit, OnDestroy {
 
-  userId: string;
   playlists: Playlists;
-  selectedPlaylist: Playlist;
   playlistName: string;
   playlistDesc: string;
-  error: string;
 
   private subscription: ISubscription;
 
@@ -25,7 +22,6 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   constructor(private playlistService: SpotifyPlaylistService,
               public dialog: MatDialog
             ) {
-              this.userId = localStorage.getItem('user');
             }
 
   ngOnInit() {
@@ -53,7 +49,6 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.playlistName = result.playlistName;
       this.playlistDesc = result.playlistDesc;
       if (this.playlistName != null) {
@@ -63,8 +58,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   }
 
   createPlaylist(playlistName: string, playlistDesc: string) {
-    console.log(this.playlistDesc);
-    this.playlistService.createPlaylist(playlistName, playlistDesc, this.userId).subscribe(
+    this.playlistService.createPlaylist(playlistName, playlistDesc).subscribe(
       playlists => {
         this.playlists = this.getPlaylists();
       }
